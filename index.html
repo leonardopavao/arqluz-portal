@@ -1,3 +1,124 @@
+
+Claude terminou a resposta
+Sim, é aqui mesmo! Deixa eu recuperar onde paramos.
+
+
+Pesquisou a memória
+Pesquisou a memória
+Essa conversa aqui mesmo, Leonardo. Deixa eu te resumir onde paramos:
+
+O que estava pronto:
+
+O portal index.html estava no ar em leonardopavao.github.io/arqluz-portal com login Admin (ADMIN/1234), integração com Google Drive via Apps Script, banco de dados no Google Sheets (1jrM7LzI_0sOnA5asFfgwtN6uhbLWNxZ4H4y4gUEvwOI), sincronização automática das subpastas de PROJETOS LOJA como obras, cadastro de profissionais com acesso por obra, e anotador de visitas com caneta, formas e texto.
+
+Onde paramos exatamente:
+
+Você tinha acabado de subir o último index.html no GitHub mas o cache ainda não tinha atualizado na hora que a conversa parou. Perguntou "Boa tarde, onde estávamos?" — então provavelmente foi só uma pausa.
+
+O que falta testar:
+
+Sincronizar o Drive e ver as obras GUICHE WEB e VINICIUS BARRETOS aparecendo
+Cadastrar o Guilherme Melhado como profissional e dar acesso às obras dele
+Confirmar que o login dele funciona e que ele vê os PDFs do Drive
+Quer continuar por aí, ou tem algum print para me mostrar do estado atual?
+
+
+<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Arq Luz — Portal de Projetos</title> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display&display=swap" r
+
+pasted
+
+Ve se esse index é o mesmo que esta la upado:
+
+Vejo que você colou o index atual. Deixa eu comparar com o último que gerei.
+
+
+Comparar o arquivo colado com o último gerado
+Comparar o arquivo colado com o último gerado
+O que está no GitHub não é o último. É uma versão intermediária — já tem o Drive funcionando mas ainda não tem o Sheets integrado. Ou seja:
+
+O que o GitHub tem agora:
+
+✓ Sincronizar Drive — funciona
+✓ buscar arquivos por obra — funciona
+✗ Login ainda é só local (some ao fechar)
+✗ Cadastro de profissional some ao fechar
+✗ Acessos somem ao fechar
+✗ Visitas somem ao fechar
+O arquivo que tenho aqui já tem tudo integrado com o Sheets — login via banco, cadastro persistente, acessos salvos, visitas salvas.
+
+Quer que eu disponibilize o arquivo atualizado para você subir no GitHub agora?
+
+1784925196891_image.png
+Aqui apareceu, mas eu queria o seguinte, queria que o ADM, conseguisse colocar os profissionais em cada pasta, tipo aparecesse a pasta para min, e que eu linkasse o cadastro a pasta, por exemplo add membro, ai eu colocarios os membros que vão ter acesso a pasta quando eles entrassem.
+
+Perfeito, está funcionando! As duas obras apareceram — GUICHE WEB e VINICIUS BARRETOS.
+
+Agora entendi o que você quer. Em vez de ir em "Controle de acesso" e buscar a obra, você quer ir direto na obra e adicionar quem tem acesso a ela — como um "Membros desta pasta". Muito mais intuitivo.
+
+
+Executou 4 comandos, leu um arquivo
+Executou 4 comandos, leu um arquivo
+
+Verificar estado do index.html nos outputs
+
+Script
+
+Ver estrutura atual de obras e drive no HTML
+
+Script
+
+Transformar obras em cards com membros
+
+Script
+
+Adicionar CSS, modal e funções de membros por obra
+
+Script
+
+Presented file
+Concluído
+Pronto! Sobe esse index.html no GitHub.
+
+O que mudou na aba Obras:
+
+Agora as obras aparecem como cards em vez de tabela. Cada card mostra o nome da obra, quantas visitas tem, e a lista de membros com acesso com o avatar e o tipo de cada um.
+
+No canto de cada card tem um botão "+ Add membro". Você clica, abre um modal, digita o nome ou tipo do profissional (arquiteto, eletricista...), ele aparece na lista, você adiciona e salva. Simples assim.
+
+O fluxo fica: sincroniza o Drive → as obras aparecem como cards → clica em "Add membro" em cada uma → busca e adiciona os profissionais → salva. Pronto, cada profissional só enxerga as obras onde foi adicionado.
+
+
+Index
+Código · HTML 
+Eu consigo ver o que tem dentro da pasta ?
+
+Sim! Quando você clica no card da obra (não no botão "Add membro", mas no card em si), abre a página de detalhes que já mostra os arquivos do Drive em tempo real.
+
+Mas posso melhorar isso — em vez de precisar clicar para abrir uma página separada, posso fazer o card expandir mostrando os arquivos direto ali, sem sair da tela de Obras.
+
+Qual você prefere?
+
+
+
+Como quer ver os arquivos da obra?
+
+1
+Card expande e mostra os arquivos ali mesmo
+⏎
+
+2
+Clica no card e abre página de detalhes (como está)
+
+3
+Botão separado 'Ver arquivos' no card
+Outra opção
+
+
+
+
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -22,7 +143,7 @@
 html,body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-size:14px;line-height:1.6}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-
+ 
 /* LOGIN */
 #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center}
 .login-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:48px 40px;width:380px;box-shadow:0 2px 24px rgba(0,0,0,.06)}
@@ -38,7 +159,7 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;color:
 .login-btn:hover{opacity:.85}
 .login-btn:disabled{opacity:.5;cursor:not-allowed}
 .login-error{font-size:12px;color:var(--red);margin-top:10px;text-align:center;display:none}
-
+ 
 /* APP */
 #app{display:none;min-height:100vh}
 #app.visible{display:flex}
@@ -166,6 +287,23 @@ tbody tr:last-child td{border-bottom:none}
 .empty-state{text-align:center;padding:48px 32px}
 .empty-state p{font-size:13px;color:var(--text3)}
 .notif-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:560px}
+ 
+/* ── OBRA CARDS ── */
+.obra-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.obra-card:hover{border-color:var(--border2);box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.obra-card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.obra-folder-icon{width:40px;height:40px;background:var(--accent-bg);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0}
+.obra-card-title{font-size:14px;font-weight:500;color:var(--text)}
+.obra-card-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.obra-membros{padding:14px 20px}
+.obra-membros-label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.obra-membros-list{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.membro-chip{display:flex;align-items:center;gap:6px;padding:5px 10px 5px 6px;background:var(--surface2);border:1px solid var(--border);border-radius:20px}
+.membro-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.membro-nome{font-size:12px;font-weight:500;color:var(--text)}
+.membro-badge{font-size:10px;color:var(--text3);margin-left:2px}
+.add-membro-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:none;border:1px dashed var(--border2);border-radius:20px;font-size:12px;color:var(--text2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.add-membro-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
 .info-box{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:8px;margin-bottom:16px}
 .info-box.green{background:var(--green-bg);border:1px solid #9FE1CB}
 .info-box.amber{background:var(--amber-bg);border:1px solid #FAC775}
@@ -173,7 +311,7 @@ tbody tr:last-child td{border-bottom:none}
 </style>
 </head>
 <body>
-
+ 
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
@@ -190,7 +328,7 @@ tbody tr:last-child td{border-bottom:none}
     <div class="login-error" id="lerr"></div>
   </div>
 </div>
-
+ 
 <!-- APP -->
 <div id="app">
   <aside class="sidebar">
@@ -241,13 +379,13 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
   </aside>
-
+ 
   <main class="main">
     <div class="topbar">
       <div class="topbar-title" id="topbar-title">Dashboard</div>
       <div><span class="topbar-info"><span class="notif-dot"></span>Sistema ativo</span></div>
     </div>
-
+ 
     <!-- DASHBOARD -->
     <div class="page active" id="page-dashboard">
       <div class="page-hero"><h1>Bom dia, Leonardo</h1><p id="today-date"></p></div>
@@ -262,7 +400,7 @@ tbody tr:last-child td{border-bottom:none}
         <div class="card"><div style="padding:16px 20px;border-bottom:1px solid var(--border);font-size:14px;font-weight:500">Obras no Drive</div><div id="d-obras"><div class="empty-state"><p>Nenhuma ainda.</p></div></div></div>
       </div>
     </div>
-
+ 
     <!-- PROFISSIONAIS -->
     <div class="page" id="page-profissionais">
       <div class="page-hero"><h1>Profissionais</h1><p>Arquitetos, eletricistas, gesseiros, engenheiros e clientes</p></div>
@@ -284,22 +422,20 @@ tbody tr:last-child td{border-bottom:none}
         <tbody id="profs-tbody"><tr><td colspan="6"><div class="empty-state"><p>Nenhum profissional cadastrado.</p></div></td></tr></tbody></table>
       </div>
     </div>
-
+ 
     <!-- OBRAS -->
     <div class="page" id="page-obras">
       <div class="page-hero"><h1>Obras</h1><p>Sincronizadas automaticamente com o Google Drive</p></div>
       <div class="section-header">
-        <div style="font-size:13px;color:var(--text3)">Obras vêm das subpastas de PROJETOS LOJA no Drive</div>
+        <div style="font-size:13px;color:var(--text3)">Subpastas de PROJETOS LOJA — clique em uma obra para gerenciar os membros</div>
         <button class="btn-primary" onclick="sincronizarDrive()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Sincronizar Drive
         </button>
       </div>
-      <div class="card">
-        <table><thead><tr><th>Obra</th><th>ID Drive</th><th>Profissionais</th><th>Ações</th></tr></thead>
-        <tbody id="obras-tbody"><tr><td colspan="4"><div class="empty-state"><p>Clique em "Sincronizar Drive" para importar as obras.</p></div></td></tr></tbody></table>
-      </div>
+      <div id="obras-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px"></div>
+      <div id="obras-empty" class="empty-state" style="display:none"><p>Clique em "Sincronizar Drive" para importar as obras.</p></div>
     </div>
-
+ 
     <!-- CONTROLE DE ACESSO -->
     <div class="page" id="page-acessos">
       <div class="page-hero"><h1>Controle de acesso</h1><p>Defina quais obras cada profissional pode visualizar</p></div>
@@ -308,7 +444,7 @@ tbody tr:last-child td{border-bottom:none}
         <div id="acessos-list"><div class="empty-state"><p>Cadastre profissionais e sincronize obras primeiro.</p></div></div>
       </div>
     </div>
-
+ 
     <!-- DRIVE -->
     <div class="page" id="page-drive">
       <div class="page-hero"><h1>Drive & Sincronizar</h1><p>Leitura automática das subpastas de PROJETOS LOJA</p></div>
@@ -327,7 +463,7 @@ tbody tr:last-child td{border-bottom:none}
         <div id="sync-preview" style="margin-top:16px"></div>
       </div>
     </div>
-
+ 
     <!-- NOTIFICAÇÕES -->
     <div class="page" id="page-notificacoes">
       <div class="page-hero"><h1>Notificações WhatsApp</h1><p>Mensagens automáticas via Z-API</p></div>
@@ -335,9 +471,9 @@ tbody tr:last-child td{border-bottom:none}
         <div class="form-row">
           <label class="form-label">Mensagem — novo documento</label>
           <textarea class="form-textarea" rows="5">Olá {nome}! 👋
-
+ 
 Um novo documento foi disponibilizado no seu portal Arq Luz.
-
+ 
 📄 *{obra}* — {arquivo}
 Acesse em: {link}</textarea>
         </div>
@@ -353,7 +489,7 @@ Acesse em: {link}</textarea>
         <button class="btn-primary" onclick="showToast('Configuração salva!')">Salvar</button>
       </div>
     </div>
-
+ 
     <!-- MEUS PROJETOS -->
     <div class="page" id="page-meus-projetos">
       <div id="prof-welcome" class="welcome-card" style="display:none">
@@ -368,7 +504,7 @@ Acesse em: {link}</textarea>
       </div>
       <div id="prof-projetos-list"><div class="empty-state"><p>Carregando seus projetos...</p></div></div>
     </div>
-
+ 
     <!-- OBRA DETALHE (admin) -->
     <div class="page" id="page-obra-detalhe">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
@@ -391,7 +527,7 @@ Acesse em: {link}</textarea>
     </div>
   </main>
 </div>
-
+ 
 <!-- MODAIS -->
 <div class="modal-overlay" id="modal-prof">
   <div class="modal">
@@ -420,7 +556,7 @@ Acesse em: {link}</textarea>
     </div>
   </div>
 </div>
-
+ 
 <div class="modal-overlay" id="modal-acesso">
   <div class="modal">
     <div class="modal-title" id="acesso-title">Gerenciar acesso</div>
@@ -440,7 +576,7 @@ Acesse em: {link}</textarea>
     </div>
   </div>
 </div>
-
+ 
 <div class="modal-overlay" id="modal-visita">
   <div class="modal" style="width:400px">
     <div class="modal-title">Salvar anotação</div>
@@ -452,7 +588,7 @@ Acesse em: {link}</textarea>
     </div>
   </div>
 </div>
-
+ 
 <!-- ANOTADOR -->
 <div class="ann-overlay" id="ann-overlay">
   <div class="ann-topbar">
@@ -505,27 +641,48 @@ Acesse em: {link}</textarea>
     <input class="ann-text-inp" id="ann-text-inp" type="text" placeholder="Digite e Enter">
   </div>
 </div>
-
+ 
+<!-- MODAL: ADD MEMBRO NA OBRA -->
+<div class="modal-overlay" id="modal-add-membro">
+  <div class="modal">
+    <div class="modal-title">Gerenciar membros</div>
+    <div class="modal-sub" id="add-membro-obra-title">Obra</div>
+    <div class="search-wrap">
+      <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-field" id="membro-search" type="text" placeholder="Buscar profissional por nome ou tipo..." oninput="filtrarProfsMembro()" autocomplete="off">
+    </div>
+    <div class="obras-results" id="membro-results"></div>
+    <div style="margin-top:12px">
+      <div style="font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Membros com acesso</div>
+      <div id="membro-granted-list"><div style="font-size:12px;color:var(--text3);padding:8px;text-align:center">Nenhum membro adicionado.</div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-membro')">Cancelar</button>
+      <button class="btn-primary" id="btn-salvar-membros" onclick="salvarMembros()">Salvar</button>
+    </div>
+  </div>
+</div>
+ 
 <div class="toast" id="toast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span id="toast-msg">OK</span></div>
-
+ 
 <script>
 // ── CONFIG ────────────────────────────────────────────
 const API = 'https://script.google.com/macros/s/AKfycbwsupCtaJm8BEtJzPFd759sthprOjQG_ubbgeernDeG1ZJDXKuv_ZDK9bP-Pp9x1Nf2/exec';
 const ROOT = '1w8xkpW4JbpwfdWoUwWm6gflS9Si0B9Rj';
 const ADMIN = {user:'ADMIN',pass:'1234',name:'Leonardo Pavão',initials:'LP',role:'admin',roleLabel:'Administrador'};
-
+ 
 // ── STATE ─────────────────────────────────────────────
 let profissionais=[], obras=[], acessos=[], visitas=[];
 let currentUser=null, acessoEditId=null, acessoTemp=new Set();
 let obraDetalheId=null;
-
+ 
 // ── API CALL ──────────────────────────────────────────
 async function api(params) {
   const url = API + '?' + new URLSearchParams(params).toString();
   const r = await fetch(url);
   return r.json();
 }
-
+ 
 // ── LOGIN ─────────────────────────────────────────────
 async function doLogin() {
   const u = document.getElementById('lu').value.trim();
@@ -534,12 +691,12 @@ async function doLogin() {
   const err = document.getElementById('lerr');
   err.style.display='none';
   if (!u||!p) { err.textContent='Preencha usuário e senha.'; err.style.display='block'; return; }
-
+ 
   // Admin local
   if (u.toUpperCase()===ADMIN.user && p===ADMIN.pass) {
     currentUser=ADMIN; launch(); return;
   }
-
+ 
   // Profissional — busca no Sheets
   btn.disabled=true; btn.textContent='Entrando...';
   try {
@@ -550,7 +707,7 @@ async function doLogin() {
   btn.disabled=false; btn.textContent='Entrar';
 }
 document.getElementById('lp').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
-
+ 
 async function launch() {
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').classList.add('visible');
@@ -558,7 +715,7 @@ async function launch() {
   document.getElementById('sidebar-avatar').textContent=currentUser.initials||initials(currentUser.nome||'');
   document.getElementById('sidebar-role').textContent=currentUser.roleLabel;
   document.getElementById('today-date').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-
+ 
   if (currentUser.role==='admin') {
     document.getElementById('admin-nav').style.display='block';
     await carregarDados();
@@ -569,7 +726,7 @@ async function launch() {
     showPage('meus-projetos');
   }
 }
-
+ 
 function doLogout() {
   currentUser=null; profissionais=[]; obras=[]; acessos=[]; visitas=[];
   document.getElementById('app').classList.remove('visible');
@@ -578,7 +735,7 @@ function doLogout() {
   document.getElementById('client-nav').style.display='none';
   document.getElementById('lu').value=''; document.getElementById('lp').value='';
 }
-
+ 
 // ── CARREGAR DADOS (admin) ────────────────────────────
 async function carregarDados() {
   try {
@@ -590,7 +747,7 @@ async function carregarDados() {
     updateDashboard(); renderProfs(); renderObras(); renderAcessos();
   } catch(e) { showToast('Erro ao carregar dados do Sheets.'); }
 }
-
+ 
 // ── CARREGAR DADOS (cliente) ──────────────────────────
 async function carregarDadosCliente() {
   const p = currentUser;
@@ -599,24 +756,24 @@ async function carregarDadosCliente() {
   badge.textContent=p.tipo||'Profissional';
   badge.className='badge '+(badgeClass(p.tipo)||'badge-cli');
   document.getElementById('prof-welcome').style.display='flex';
-
+ 
   const obraIds = p.obraIds || [];
   if (!obraIds.length) {
     document.getElementById('prof-projetos-list').innerHTML='<div class="empty-state"><p>Nenhum projeto disponível ainda.</p></div>';
     return;
   }
-
+ 
   // Carregar obras do Sheets para ter os driveIds
   try {
     const res = await api({action:'getAll'});
     obras = res.obras||[];
     visitas = res.visitas||[];
   } catch(e) {}
-
+ 
   const minhasObras = obraIds.map(id=>obras.find(o=>o.id.toString()===id.toString())).filter(Boolean);
   await renderClienteObras(minhasObras);
 }
-
+ 
 async function renderClienteObras(minhasObras) {
   const lista = document.getElementById('prof-projetos-list');
   if (!minhasObras.length) { lista.innerHTML='<div class="empty-state"><p>Nenhum projeto disponível.</p></div>'; return; }
@@ -657,7 +814,7 @@ async function renderClienteObras(minhasObras) {
   const c=document.getElementById('client-cards');
   if(c) c.innerHTML=cards.join('');
 }
-
+ 
 // ── SINCRONIZAR DRIVE ─────────────────────────────────
 async function sincronizarDrive() {
   const btn=document.getElementById('btn-sync');
@@ -665,12 +822,12 @@ async function sincronizarDrive() {
   const preview=document.getElementById('sync-preview');
   if(btn){btn.disabled=true;btn.innerHTML='<div class="loading-spin" style="width:14px;height:14px;border-width:2px;display:inline-block;vertical-align:-3px;margin-right:6px"></div>Sincronizando...';}
   if(status)status.textContent='Conectando ao Drive...';
-
+ 
   try {
     const items = await api({action:'listFolder', folder:ROOT});
     if (items.error) throw new Error(items.error);
     const pastas = items.filter(i=>i.mimeType==='application/vnd.google-apps.folder');
-
+ 
     // Adicionar novas obras no Sheets
     let adicionadas=0;
     for (const p of pastas) {
@@ -680,14 +837,14 @@ async function sincronizarDrive() {
         if (r.ok) { obras.push({id:r.id, nome:p.name, driveId:p.id}); adicionadas++; }
       }
     }
-
+ 
     if(status)status.innerHTML=`<span style="color:var(--green)">✓ ${pastas.length} pasta${pastas.length!==1?'s':''} encontrada${pastas.length!==1?'s':''} no Drive${adicionadas?', '+adicionadas+' nova'+( adicionadas!==1?'s':''):' (já sincronizado)'}</span>`;
     if(preview)preview.innerHTML=pastas.length?'<div style="margin-top:8px">'+pastas.map(p=>`
       <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:6px">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span style="font-size:13px;font-weight:500">${p.name}</span>
       </div>`).join('')+'</div>':'<p style="font-size:13px;color:var(--text3);margin-top:8px">Nenhuma subpasta encontrada em PROJETOS LOJA.</p>';
-
+ 
     renderObras(); renderAcessos(); updateDashboard();
     showToast(adicionadas>0?adicionadas+' obra'+( adicionadas!==1?'s':'')+' adicionada'+( adicionadas!==1?'s':'')+'!':'Drive já sincronizado!');
   } catch(e) {
@@ -696,7 +853,7 @@ async function sincronizarDrive() {
   }
   if(btn){btn.disabled=false;btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Sincronizar agora';}
 }
-
+ 
 // ── DASHBOARD ─────────────────────────────────────────
 function updateDashboard() {
   document.getElementById('s-profs').textContent=profissionais.length;
@@ -710,7 +867,7 @@ function updateDashboard() {
     ?'<table><tbody>'+obras.slice(-4).reverse().map(o=>`<tr><td><div class="name-cell">${o.nome}</div></td></tr>`).join('')+'</tbody></table>'
     :'<div class="empty-state"><p>Sincronize o Drive primeiro.</p></div>';
 }
-
+ 
 // ── PROFISSIONAIS ─────────────────────────────────────
 function renderProfs(filtro='todos') {
   const lista=filtro==='todos'?profissionais:profissionais.filter(p=>p.tipo===filtro);
@@ -728,7 +885,7 @@ function renderProfs(filtro='todos') {
     :'<tr><td colspan="6"><div class="empty-state"><p>Nenhum profissional cadastrado.</p></div></td></tr>';
 }
 function filterProfs(btn,tipo){document.querySelectorAll('#page-profissionais .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderProfs(tipo);}
-
+ 
 async function salvarProf() {
   const nome=document.getElementById('p-nome').value.trim();
   const tipo=document.getElementById('p-tipo').value;
@@ -746,7 +903,7 @@ async function salvarProf() {
   ['p-nome','p-wpp','p-user','p-pass'].forEach(id=>document.getElementById(id).value='');
   renderProfs();updateDashboard();showToast(nome+' cadastrado!');
 }
-
+ 
 async function excluirProf(id){
   if(!confirm('Excluir este profissional?'))return;
   await api({action:'deleteProfissional',id});
@@ -754,22 +911,53 @@ async function excluirProf(id){
   acessos=acessos.filter(a=>a.profId.toString()!==id.toString());
   renderProfs();renderAcessos();updateDashboard();showToast('Removido.');
 }
-
+ 
 // ── OBRAS ─────────────────────────────────────────────
 function renderObras(){
-  document.getElementById('obras-tbody').innerHTML=obras.length?obras.map(o=>{
-    const n=acessos.filter(a=>a.obraId.toString()===o.id.toString()).length;
-    return`<tr>
-      <td><div class="name-cell">${o.nome}</div></td>
-      <td style="font-size:11px;color:var(--text3);font-family:monospace">${o.driveId||'—'}</td>
-      <td style="font-size:12px;color:var(--text2)">${n} profissional${n!==1?'is':''}</td>
-      <td><div class="actions">
-        <button class="icon-btn" title="Ver detalhes" onclick="abrirObraDetalhe('${o.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-        <button class="icon-btn" title="Excluir" onclick="excluirObra('${o.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
-      </div></td></tr>`;}).join('')
-    :'<tr><td colspan="4"><div class="empty-state"><p>Clique em "Sincronizar Drive" para importar as obras.</p></div></td></tr>';
+  const container = document.getElementById('obras-cards');
+  const empty = document.getElementById('obras-empty');
+  if (!obras.length) { container.innerHTML=''; if(empty)empty.style.display='block'; return; }
+  if(empty)empty.style.display='none';
+  container.innerHTML = obras.map(o => {
+    const membros = acessos.filter(a=>a.obraId.toString()===o.id.toString())
+      .map(a=>profissionais.find(p=>p.id.toString()===a.profId.toString()))
+      .filter(Boolean);
+    const vis = visitas.filter(v=>v.obraId.toString()===o.id.toString()).length;
+    return `
+    <div class="obra-card" onclick="abrirObraDetalhe('${o.id}')">
+      <div class="obra-card-header">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="obra-folder-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <div class="obra-card-title">${o.nome}</div>
+            <div class="obra-card-meta">${vis} visita${vis!==1?'s':''} salvas</div>
+          </div>
+        </div>
+        <button class="icon-btn" onclick="event.stopPropagation();excluirObra('${o.id}')" title="Excluir">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+        </button>
+      </div>
+      <div class="obra-membros">
+        <div class="obra-membros-label">Membros com acesso</div>
+        <div class="obra-membros-list">
+          ${membros.length ? membros.map(m=>`
+            <div class="membro-chip">
+              <div class="membro-av" style="${avStyle(m.tipo)}">${initials(m.nome)}</div>
+              <span class="membro-nome">${m.nome.split(' ')[0]}</span>
+              <span class="membro-badge">${m.tipo}</span>
+            </div>`).join('') : '<span style="font-size:12px;color:var(--text3)">Nenhum membro ainda</span>'}
+          <button class="add-membro-btn" onclick="event.stopPropagation();abrirAddMembro('${o.id}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add membro
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
 }
-
+ 
 async function excluirObra(id){
   if(!confirm('Excluir esta obra?'))return;
   await api({action:'deleteObra',id});
@@ -777,7 +965,7 @@ async function excluirObra(id){
   acessos=acessos.filter(a=>a.obraId.toString()!==id.toString());
   renderObras();renderAcessos();updateDashboard();showToast('Obra removida.');
 }
-
+ 
 // ── OBRA DETALHE ──────────────────────────────────────
 async function abrirObraDetalhe(id) {
   obraDetalheId=id;
@@ -808,7 +996,7 @@ async function abrirObraDetalhe(id) {
       :'<div class="empty-state"><p>Nenhum arquivo nesta pasta ainda. Suba PDFs no Drive.</p></div>';
   } catch(e) { el.innerHTML='<div class="empty-state"><p>Erro ao carregar: '+e.message+'</p></div>'; }
 }
-
+ 
 function renderDetVisitas(){
   const vis=visitas.filter(v=>v.obraId.toString()===obraDetalheId.toString());
   const el=document.getElementById('det-visitas');
@@ -825,14 +1013,14 @@ function renderDetVisitas(){
       <img src="${v.imagem}" style="width:100%;max-height:280px;object-fit:contain;background:var(--surface2);display:block">
     </div>`).join('');
 }
-
+ 
 async function excluirVisita(id){
   if(!confirm('Excluir esta anotação?'))return;
   await api({action:'deleteVisita',id});
   visitas=visitas.filter(v=>v.id.toString()!==id.toString());
   renderDetVisitas();updateDashboard();showToast('Anotação removida.');
 }
-
+ 
 // ── ACESSOS ───────────────────────────────────────────
 function renderAcessos(){
   const el=document.getElementById('acessos-list');
@@ -846,7 +1034,7 @@ function renderAcessos(){
     </div>`;}).join('')
     :'<div class="empty-state"><p>Cadastre profissionais primeiro.</p></div>';
 }
-
+ 
 function abrirAcesso(profId){
   const p=profissionais.find(x=>x.id.toString()===profId.toString());
   acessoEditId=profId;
@@ -882,11 +1070,11 @@ async function salvarAcesso(){
   const p=profissionais.find(x=>x.id.toString()===acessoEditId.toString());
   showToast('Acesso de '+(p?.nome||'profissional')+' atualizado!');
 }
-
+ 
 // ── ANOTADOR ──────────────────────────────────────────
 let annCanvas,annCtx,annTool='pen',annColor='#E24B4A',annSize=2;
 let drawing=false,sx=0,sy=0,strokes=[],currentPoints=[],snapBefore=null;
-
+ 
 function abrirAnnotator(){
   const o=obras.find(x=>x.id.toString()===obraDetalheId.toString());
   document.getElementById('ann-title').textContent='Anotando: '+o.nome;
@@ -915,7 +1103,7 @@ function undoStroke(){if(!strokes.length)return;strokes.pop();redrawAnn();}
 function clearAnn(){if(!confirm('Limpar tudo?'))return;strokes=[];annCtx.clearRect(0,0,annCanvas.width,annCanvas.height);}
 function redrawAnn(){annCtx.clearRect(0,0,annCanvas.width,annCanvas.height);for(const s of strokes){annCtx.strokeStyle=s.color;annCtx.lineWidth=s.size;annCtx.lineCap='round';annCtx.lineJoin='round';if(s.type==='pen'){annCtx.globalCompositeOperation='source-over';annCtx.beginPath();if(s.data.length){annCtx.moveTo(s.data[0][0],s.data[0][1]);s.data.slice(1).forEach(([x,y])=>annCtx.lineTo(x,y));}annCtx.stroke();}else if(s.type==='eraser'){annCtx.globalCompositeOperation='destination-out';annCtx.lineWidth=s.size*4;annCtx.beginPath();if(s.data.length){annCtx.moveTo(s.data[0][0],s.data[0][1]);s.data.slice(1).forEach(([x,y])=>annCtx.lineTo(x,y));}annCtx.stroke();annCtx.globalCompositeOperation='source-over';}else if(s.type==='rect'){annCtx.beginPath();annCtx.strokeStyle=s.color;annCtx.strokeRect(s.x,s.y,s.x2-s.x,s.y2-s.y);}else if(s.type==='circle'){const rx=(s.x2-s.x)/2,ry=(s.y2-s.y)/2;annCtx.beginPath();annCtx.ellipse(s.x+rx,s.y+ry,Math.abs(rx),Math.abs(ry),0,0,2*Math.PI);annCtx.stroke();}else if(s.type==='arrow'){drawArrow(annCtx,s.x,s.y,s.x2,s.y2,s.color,s.size);}else if(s.type==='text'){annCtx.font=`${s.size*4+10}px Inter,sans-serif`;annCtx.fillStyle=s.color;annCtx.fillText(s.text,s.x,s.y);}}}
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='z'&&document.getElementById('ann-overlay').classList.contains('open')){e.preventDefault();undoStroke();}});
-
+ 
 function pedirNomeVisita(){
   const o=obras.find(x=>x.id.toString()===obraDetalheId.toString());
   const n=visitas.filter(v=>v.obraId.toString()===obraDetalheId.toString()).length+1;
@@ -937,7 +1125,7 @@ async function confirmarVisita(){
   renderDetVisitas();updateDashboard();
   showToast('"'+nome+'" salva!');
 }
-
+ 
 const PAGE_TITLES={dashboard:'Dashboard',profissionais:'Profissionais',obras:'Obras',acessos:'Controle de acesso',drive:'Drive & Sincronizar',notificacoes:'Notificações','meus-projetos':'Meus Projetos','obra-detalhe':'Detalhes da obra'};
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -952,8 +1140,104 @@ function avStyle(t){return{Arquiteto:'background:#E8F1FB;color:#0C447C',Eletrici
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+// ── ADD MEMBRO NA OBRA ───────────────────────────────
+let membroEditandoObraId = null;
+let membroTemp = new Set();
+ 
+function abrirAddMembro(obraId) {
+  membroEditandoObraId = obraId;
+  const o = obras.find(x=>x.id.toString()===obraId.toString());
+  document.getElementById('add-membro-obra-title').textContent = o.nome;
+  // Carregar membros atuais
+  membroTemp = new Set(
+    acessos.filter(a=>a.obraId.toString()===obraId.toString()).map(a=>a.profId.toString())
+  );
+  document.getElementById('membro-search').value = '';
+  document.getElementById('membro-results').classList.remove('open');
+  document.getElementById('membro-results').innerHTML = '';
+  renderMembroGranted();
+  openModal('modal-add-membro');
+}
+ 
+function filtrarProfsMembro() {
+  const q = document.getElementById('membro-search').value.trim().toLowerCase();
+  const res = document.getElementById('membro-results');
+  if (!q) { res.classList.remove('open'); res.innerHTML=''; return; }
+  const matches = profissionais.filter(p => 
+    (p.nome.toLowerCase().includes(q) || p.tipo.toLowerCase().includes(q)) && 
+    !membroTemp.has(p.id.toString())
+  );
+  res.classList.add('open');
+  res.innerHTML = matches.length ? matches.map(p => `
+    <div class="obra-result-item" onclick="addMembroObra('${p.id}')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="membro-av" style="${avStyle(p.tipo)}">${initials(p.nome)}</div>
+        <div>
+          <div style="font-size:13px;font-weight:500">${p.nome}</div>
+          <div style="font-size:11px;color:var(--text3)">${p.tipo}</div>
+        </div>
+      </div>
+      <span style="font-size:11px;color:var(--blue);font-weight:500">+ Adicionar</span>
+    </div>`).join('')
+  : '<div style="padding:12px 14px;font-size:13px;color:var(--text3)">Nenhum profissional encontrado.<br><small>Cadastre profissionais primeiro em "Profissionais".</small></div>';
+}
+ 
+function addMembroObra(profId) {
+  membroTemp.add(profId.toString());
+  document.getElementById('membro-search').value = '';
+  document.getElementById('membro-results').classList.remove('open');
+  document.getElementById('membro-results').innerHTML = '';
+  renderMembroGranted();
+}
+ 
+function renderMembroGranted() {
+  const el = document.getElementById('membro-granted-list');
+  const lista = [...membroTemp].map(id=>profissionais.find(p=>p.id.toString()===id)).filter(Boolean);
+  el.innerHTML = lista.length ? lista.map(p=>`
+    <div class="obra-granted-row" style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--blue-bg);border-radius:6px;margin-bottom:6px">
+      <div class="membro-av" style="${avStyle(p.tipo)}">${initials(p.nome)}</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:500;color:var(--blue)">${p.nome}</div>
+        <div style="font-size:11px;color:var(--blue);opacity:.7">${p.tipo}</div>
+      </div>
+      <button class="obra-remove-btn" onclick="membroTemp.delete('${p.id}');renderMembroGranted()">×</button>
+    </div>`).join('')
+  : '<div style="font-size:12px;color:var(--text3);padding:8px;text-align:center">Nenhum membro adicionado.</div>';
+}
+ 
+async function salvarMembros() {
+  const btn = document.getElementById('btn-salvar-membros');
+  btn.disabled=true; btn.textContent='Salvando...';
+  const obraId = membroEditandoObraId;
+  
+  // Remover acessos antigos desta obra
+  acessos = acessos.filter(a=>a.obraId.toString()!==obraId.toString());
+  
+  // Adicionar novos
+  for (const profId of membroTemp) {
+    acessos.push({profId, obraId: obraId.toString()});
+    // Salvar no Sheets se disponível
+    try { await api({action:'setAcesso', profId, obraIds: [...new Set(
+      acessos.filter(a=>a.profId.toString()===profId.toString()).map(a=>a.obraId)
+    )].join(',')}); } catch(e){}
+  }
+  
+  btn.disabled=false; btn.textContent='Salvar';
+  closeModal('modal-add-membro');
+  renderObras();
+  updateDashboard();
+  const o = obras.find(x=>x.id.toString()===obraId.toString());
+  showToast('Membros de "' + (o?.nome||'obra') + '" atualizados!');
+}
+ 
 let toastTimer;
 function showToast(msg){const t=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000);}
 </script>
 </body>
 </html>
+
+
+
+
+
+
