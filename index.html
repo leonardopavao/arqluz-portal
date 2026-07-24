@@ -563,66 +563,74 @@ async function api(params) {
 }
 
 // ── LOGIN ─────────────────────────────────────────────
-async function doLogin() {
-  const u = document.getElementById('lu').value.trim();
-  const p = document.getElementById('lp').value;
-  const btn = document.getElementById('login-btn');
+function doLogin() {
+  const u = (document.getElementById('lu').value||'').trim().toUpperCase();
+  const p = (document.getElementById('lp').value||'');
   const err = document.getElementById('lerr');
   err.style.display='none';
-  if (!u||!p) { err.textContent='Preencha usuário e senha.'; err.style.display='block'; return; }
 
-  // Admin local — entra imediatamente, sem chamar API
-  if (u.toUpperCase()===ADMIN.user && p===ADMIN.pass) {
-    currentUser=ADMIN;
-    launch();
+  // Admin local — SÍNCRONO, sem async, sem await, sem API
+  if (u === 'ADMIN' && p === '1234') {
+    currentUser = {user:'ADMIN',pass:'1234',name:'Leonardo Pavão',initials:'LP',role:'admin',roleLabel:'Administrador'};
+    launchAdmin();
     return;
   }
 
   // Profissional — busca no Sheets
-  btn.disabled=true; btn.textContent='Entrando...';
-  try {
-    const res = await api({action:'login', usuario:u, senha:p});
-    if (res.error) { err.textContent=res.error; err.style.display='block'; }
-    else { currentUser={...res.prof, role:'client', roleLabel:res.prof.tipo}; launch(); }
-  } catch(e) { err.textContent='Erro de conexão. Tente novamente.'; err.style.display='block'; }
-  btn.disabled=false; btn.textContent='Entrar';
+  err.textContent='Verificando...'; err.style.display='block';
+  const btn = document.getElementById('login-btn');
+  if(btn){btn.disabled=true; btn.textContent='Entrando...';}
+  fetch(API + '?' + new URLSearchParams({action:'login', usuario:u, senha:p}))
+    .then(r=>r.json())
+    .then(res=>{
+      if(res.error){ err.textContent=res.error; err.style.display='block'; }
+      else { currentUser={...res.prof, role:'client', roleLabel:res.prof.tipo}; launchCliente(); }
+    })
+    .catch(()=>{ err.textContent='Erro de conexão.'; err.style.display='block'; })
+    .finally(()=>{ if(btn){btn.disabled=false; btn.textContent='Entrar';} });
 }
-document.getElementById('lp').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
 
-async function launch() {
+function launchAdmin() {
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').classList.add('visible');
-  document.getElementById('sidebar-name').textContent=currentUser.name||currentUser.nome;
-  document.getElementById('sidebar-avatar').textContent=currentUser.initials||initials(currentUser.nome||'');
-  document.getElementById('sidebar-role').textContent=currentUser.roleLabel;
+  document.getElementById('sidebar-name').textContent='Leonardo Pavão';
+  document.getElementById('sidebar-avatar').textContent='LP';
+  document.getElementById('sidebar-role').textContent='Administrador';
   document.getElementById('today-date').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-
-  if (currentUser.role==='admin') {
-    document.getElementById('admin-nav').style.display='block';
-    showPage('dashboard'); // Entra imediatamente sem esperar
-    updateDashboard();
-    // Carregar Sheets e Drive em background — sem travar o login
-    setTimeout(async () => {
-      try {
-        const res = await api({action:'getAll'});
-        profissionais = res.profissionais||[];
-        obras = res.obras||[];
-        acessos = res.acessos||[];
-        visitas = res.visitas||[];
-        updateDashboard(); renderProfs(); renderObras(); renderAcessos();
-      } catch(e) { /* Sheets indisponível — continua sem dados */ }
-      // Sincronizar Drive independentemente
-      if(!obras.length) sincronizarDriveBackground();
-    }, 500);
-  } else {
-    document.getElementById('client-nav').style.display='block';
-    showPage('meus-projetos');
-    // Carregar projetos do cliente em background
-    setTimeout(async () => {
-      try { await carregarDadosCliente(); } catch(e) {}
-    }, 300);
-  }
+  document.getElementById('admin-nav').style.display='block';
+  showPage('dashboard');
+  updateDashboard();
+  // Carregar dados em background
+  setTimeout(()=>{
+    fetch(API + '?action=getAll')
+      .then(r=>r.json())
+      .then(res=>{
+        profissionais=res.profissionais||[];
+        obras=res.obras||[];
+        acessos=res.acessos||[];
+        visitas=res.visitas||[];
+        updateDashboard();renderProfs();renderObras();renderAcessos();
+        if(!obras.length) sincronizarDriveBackground();
+      }).catch(()=>{ sincronizarDriveBackground(); });
+  }, 300);
 }
+
+function launchCliente() {
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('sidebar-name').textContent=currentUser.nome||'';
+  document.getElementById('sidebar-avatar').textContent=initials(currentUser.nome||'');
+  document.getElementById('sidebar-role').textContent=currentUser.tipo||'Cliente';
+  document.getElementById('today-date').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('client-nav').style.display='block';
+  showPage('meus-projetos');
+  setTimeout(()=>carregarDadosCliente().catch(()=>{}), 300);
+}
+
+async function doLogin_legado() { /* mantido para referência */ }
+document.getElementById('lp').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+
+// launch() substituído por launchAdmin() e launchCliente()
 
 function doLogout() {
   currentUser=null; profissionais=[]; obras=[]; acessos=[]; visitas=[];
