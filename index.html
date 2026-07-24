@@ -187,6 +187,31 @@ tbody tr:last-child td{border-bottom:none}
 .info-box.green{background:var(--green-bg);border:1px solid #9FE1CB}
 .info-box.amber{background:var(--amber-bg);border:1px solid #FAC775}
 .info-box svg{flex-shrink:0;margin-top:1px}
+
+/* ── KANBAN ── */
+.kanban-board{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start;min-height:60vh}
+.kanban-col{background:var(--surface2);border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.kanban-col.drag-over{border:2px dashed var(--accent);background:var(--accent-bg)}
+.kanban-col-header{padding:14px 16px;display:flex;align-items:center;gap:10px;color:#fff}
+.kanban-col-avatar{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.kanban-col-name{font-size:14px;font-weight:600;color:#fff}
+.kanban-col-count{font-size:11px;color:rgba(255,255,255,.65);margin-top:1px}
+.kanban-col-body{padding:10px;min-height:80px;display:flex;flex-direction:column;gap:8px}
+.kanban-col-empty{font-size:12px;color:var(--text3);text-align:center;padding:16px 12px;display:none;border-top:1px dashed var(--border)}
+.kanban-col-body:empty + .kanban-col-empty{display:block}
+.kanban-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;cursor:grab;transition:box-shadow .15s,transform .1s;user-select:none;position:relative}
+.kanban-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.1);border-color:var(--border2)}
+.kanban-card.dragging{opacity:.5;transform:rotate(1deg);cursor:grabbing}
+.kanban-card-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;padding-right:20px}
+.kanban-card-meta{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.kanban-card-members{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.kanban-member-dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;border:2px solid #fff;margin-left:-6px}
+.kanban-member-dot:first-child{margin-left:0}
+.kanban-card-open{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:4px;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);opacity:0;transition:opacity .15s}
+.kanban-card:hover .kanban-card-open{opacity:1}
+.kanban-card-open:hover{background:var(--border);color:var(--text)}
+.kanban-add-btn{margin:0 10px 10px;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;background:none;border:1px dashed var(--border2);border-radius:8px;font-size:12px;color:var(--text3);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;width:calc(100% - 20px)}
+.kanban-add-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
 </style>
 </head>
 <body>
@@ -198,6 +223,7 @@ tbody tr:last-child td{border-bottom:none}
       <div class="login-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
       <div class="login-brand">Arq Luz</div>
       <div class="login-sub">Portal de Projetos</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:6px;letter-spacing:1px">v 1.01</div>
     </div>
     <label class="login-label" for="lu">Usuário</label>
     <input class="login-input" id="lu" type="text" placeholder="seu usuário" autocomplete="off">
@@ -304,15 +330,64 @@ tbody tr:last-child td{border-bottom:none}
 
     <!-- OBRAS -->
     <div class="page" id="page-obras">
-      <div class="page-hero"><h1>Obras</h1><p>Sincronizadas automaticamente com o Google Drive</p></div>
-      <div class="section-header">
-        <div style="font-size:13px;color:var(--text3)">Subpastas de PROJETOS LOJA — clique em uma obra para gerenciar os membros</div>
-        <button class="btn-primary" onclick="sincronizarDrive()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Sincronizar Drive
-        </button>
+      <div class="page-hero" style="margin-bottom:20px">
+        <h1>Obras</h1>
+        <p>Arraste as obras entre os consultores — clique para abrir detalhes</p>
       </div>
-      <div id="obras-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px"></div>
-      <div id="obras-empty" class="empty-state" style="display:none"><p>Clique em "Sincronizar Drive" para importar as obras.</p></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary" onclick="sincronizarDrive()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Sincronizar Drive
+          </button>
+        </div>
+      </div>
+      <!-- KANBAN -->
+      <div class="kanban-board" id="kanban-board">
+        <div class="kanban-col" data-col="geovana" ondragover="onDragOver(event)" ondrop="onDrop(event,'geovana')">
+          <div class="kanban-col-header" style="background:linear-gradient(135deg,#185FA5,#0d3d6b)">
+            <div class="kanban-col-avatar">GE</div>
+            <div>
+              <div class="kanban-col-name">Geovana</div>
+              <div class="kanban-col-count" id="count-geovana">0 obras</div>
+            </div>
+          </div>
+          <div class="kanban-col-body" id="col-geovana"></div>
+          <div class="kanban-col-empty" id="empty-geovana">Arraste obras para cá</div>
+        </div>
+        <div class="kanban-col" data-col="larissa" ondragover="onDragOver(event)" ondrop="onDrop(event,'larissa')">
+          <div class="kanban-col-header" style="background:linear-gradient(135deg,#0F6E56,#085041)">
+            <div class="kanban-col-avatar">LA</div>
+            <div>
+              <div class="kanban-col-name">Larissa</div>
+              <div class="kanban-col-count" id="count-larissa">0 obras</div>
+            </div>
+          </div>
+          <div class="kanban-col-body" id="col-larissa"></div>
+          <div class="kanban-col-empty" id="empty-larissa">Arraste obras para cá</div>
+        </div>
+        <div class="kanban-col" data-col="leonardo" ondragover="onDragOver(event)" ondrop="onDrop(event,'leonardo')">
+          <div class="kanban-col-header" style="background:linear-gradient(135deg,#854F0B,#5a3508)">
+            <div class="kanban-col-avatar">LP</div>
+            <div>
+              <div class="kanban-col-name">Leonardo</div>
+              <div class="kanban-col-count" id="count-leonardo">0 obras</div>
+            </div>
+          </div>
+          <div class="kanban-col-body" id="col-leonardo"></div>
+          <div class="kanban-col-empty" id="empty-leonardo">Arraste obras para cá</div>
+        </div>
+        <div class="kanban-col" data-col="sem-consultor" ondragover="onDragOver(event)" ondrop="onDrop(event,'sem-consultor')">
+          <div class="kanban-col-header" style="background:linear-gradient(135deg,#6B6860,#3a3835)">
+            <div class="kanban-col-avatar" style="background:rgba(255,255,255,.15)">—</div>
+            <div>
+              <div class="kanban-col-name">Sem consultor</div>
+              <div class="kanban-col-count" id="count-sem-consultor">0 obras</div>
+            </div>
+          </div>
+          <div class="kanban-col-body" id="col-sem-consultor"></div>
+          <div class="kanban-col-empty" id="empty-sem-consultor">Obras não atribuídas</div>
+        </div>
+      </div>
     </div>
 
     <!-- CONTROLE DE ACESSO -->
@@ -840,50 +915,91 @@ async function excluirProf(id){
 }
 
 // ── OBRAS ─────────────────────────────────────────────
-function renderObras(){
-  const container = document.getElementById('obras-cards');
-  const empty = document.getElementById('obras-empty');
-  if (!obras.length) { container.innerHTML=''; if(empty)empty.style.display='block'; return; }
-  if(empty)empty.style.display='none';
-  container.innerHTML = obras.map(o => {
+// ── KANBAN STATE ─────────────────────────────────────
+// Armazena qual coluna cada obra pertence
+if (!window.obraColuna) window.obraColuna = {};
+let draggedObraId = null;
+
+function renderObras() { renderKanban(); }
+
+function renderKanban() {
+  const cols = ['geovana','larissa','leonardo','sem-consultor'];
+  // Obras sem coluna definida vão para sem-consultor
+  obras.forEach(o => {
+    if (!obraColuna[o.id]) obraColuna[o.id] = 'sem-consultor';
+  });
+  // Limpar colunas
+  cols.forEach(col => {
+    const el = document.getElementById('col-'+col);
+    if (el) el.innerHTML = '';
+  });
+  // Renderizar cards por coluna
+  obras.forEach(o => {
+    const col = obraColuna[o.id] || 'sem-consultor';
+    const colEl = document.getElementById('col-'+col);
+    if (!colEl) return;
     const membros = acessos.filter(a=>a.obraId.toString()===o.id.toString())
       .map(a=>profissionais.find(p=>p.id.toString()===a.profId.toString()))
       .filter(Boolean);
     const vis = visitas.filter(v=>v.obraId.toString()===o.id.toString()).length;
-    return `
-    <div class="obra-card" onclick="abrirObraDetalhe('${o.id}')">
-      <div class="obra-card-header">
-        <div style="display:flex;align-items:center;gap:12px">
-          <div class="obra-folder-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <div>
-            <div class="obra-card-title">${o.nome}</div>
-            <div class="obra-card-meta">${vis} visita${vis!==1?'s':''} salvas</div>
-          </div>
-        </div>
-        <button class="icon-btn" onclick="event.stopPropagation();excluirObra('${o.id}')" title="Excluir">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
-        </button>
+    const dotsHtml = membros.slice(0,4).map(m=>
+      `<div class="kanban-member-dot" style="${avStyle(m.tipo)}" title="${m.nome}">${initials(m.nome)}</div>`
+    ).join('');
+    const card = document.createElement('div');
+    card.className = 'kanban-card';
+    card.draggable = true;
+    card.dataset.obraId = o.id;
+    card.innerHTML = `
+      <button class="kanban-card-open" onclick="event.stopPropagation();abrirObraDetalhe('${o.id}')" title="Abrir detalhes">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </button>
+      <div class="kanban-card-title">${o.nome}</div>
+      <div class="kanban-card-meta">
+        <span>${vis} visita${vis!==1?'s':''}</span>
+        ${membros.length ? `<span>·</span><span>${membros.length} membro${membros.length!==1?'s':''}</span>` : ''}
       </div>
-      <div class="obra-membros">
-        <div class="obra-membros-label">Membros com acesso</div>
-        <div class="obra-membros-list">
-          ${membros.length ? membros.map(m=>`
-            <div class="membro-chip">
-              <div class="membro-av" style="${avStyle(m.tipo)}">${initials(m.nome)}</div>
-              <span class="membro-nome">${m.nome.split(' ')[0]}</span>
-              <span class="membro-badge">${m.tipo}</span>
-            </div>`).join('') : '<span style="font-size:12px;color:var(--text3)">Nenhum membro ainda</span>'}
-          <button class="add-membro-btn" onclick="event.stopPropagation();abrirAddMembro('${o.id}')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Add membro
-          </button>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
+      ${membros.length ? `<div class="kanban-card-members">${dotsHtml}${membros.length>4?`<div class="kanban-member-dot" style="background:var(--surface2);color:var(--text2)">+${membros.length-4}</div>`:''}</div>` : ''}
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+        <button onclick="event.stopPropagation();abrirAddMembro('${o.id}')" style="font-size:11px;padding:3px 10px;border-radius:20px;border:1px dashed var(--border2);background:none;color:var(--text3);cursor:pointer;font-family:'Inter',sans-serif">+ Add membro</button>
+        <button onclick="event.stopPropagation();if(confirm('Excluir?'))excluirObra('${o.id}')" style="font-size:11px;padding:3px 8px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:'Inter',sans-serif">🗑</button>
+      </div>`;
+    card.addEventListener('dragstart', e => { draggedObraId = o.id; card.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; });
+    card.addEventListener('dragend', () => card.classList.remove('dragging'));
+    card.addEventListener('click', e => { if(!e.target.closest('button')) abrirObraDetalhe(o.id); });
+    colEl.appendChild(card);
+  });
+  // Atualizar contadores
+  cols.forEach(col => {
+    const count = obras.filter(o=>(obraColuna[o.id]||'sem-consultor')===col).length;
+    const el = document.getElementById('count-'+col);
+    if (el) el.textContent = count + ' obra' + (count!==1?'s':'');
+  });
 }
+
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('drag-over');
+}
+
+function onDrop(e, col) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (draggedObraId) {
+    obraColuna[draggedObraId] = col;
+    draggedObraId = null;
+    renderKanban();
+    const o = obras.find(x=>x.id.toString()===obraColuna[Object.keys(obraColuna).find(k=>obraColuna[k]===col&&obras.find(x=>x.id.toString()===k))]);
+    showToast('Obra movida para ' + col.charAt(0).toUpperCase() + col.slice(1).replace('-',' ') + '!');
+  }
+}
+
+// Remover drag-over quando sair da coluna
+document.addEventListener('dragleave', e => {
+  if (e.target.classList && e.target.classList.contains('kanban-col')) {
+    e.target.classList.remove('drag-over');
+  }
+});
 
 async function excluirObra(id){
   if(!confirm('Excluir esta obra?'))return;
