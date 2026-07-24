@@ -627,7 +627,6 @@ function launchCliente() {
   setTimeout(()=>carregarDadosCliente().catch(()=>{}), 300);
 }
 
-async function doLogin_legado() { /* mantido para referência */ }
 document.getElementById('lp').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
 
 // launch() substituído por launchAdmin() e launchCliente()
@@ -744,7 +743,7 @@ async function sincronizarDriveBackground() {
   } catch(e) { /* silencioso */ }
 }
 
-async async function sincronizarDrive() {
+async function sincronizarDrive() {
   const btn=document.getElementById('btn-sync');
   const status=document.getElementById('sync-status');
   const preview=document.getElementById('sync-preview');
