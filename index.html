@@ -599,6 +599,8 @@ async function launch() {
     document.getElementById('admin-nav').style.display='block';
     await carregarDados();
     showPage('dashboard');
+    // Sincronizar obras em background ao logar
+    if(!obras.length) setTimeout(()=>sincronizarDriveBackground(),1500);
   } else {
     document.getElementById('client-nav').style.display='block';
     await carregarDadosCliente();
@@ -624,7 +626,12 @@ async function carregarDados() {
     acessos = res.acessos||[];
     visitas = res.visitas||[];
     updateDashboard(); renderProfs(); renderObras(); renderAcessos();
-  } catch(e) { showToast('Erro ao carregar dados do Sheets.'); }
+    // Se não há obras no Sheets, sincronizar Drive automaticamente
+    if (!obras.length) setTimeout(()=>sincronizarDrive(), 800);
+  } catch(e) {
+    // Se Sheets falhar, ainda tenta sincronizar Drive
+    setTimeout(()=>sincronizarDrive(), 800);
+  }
 }
 
 // ── CARREGAR DADOS (cliente) ──────────────────────────
@@ -695,7 +702,25 @@ async function renderClienteObras(minhasObras) {
 }
 
 // ── SINCRONIZAR DRIVE ─────────────────────────────────
-async function sincronizarDrive() {
+async function sincronizarDriveBackground() {
+  try {
+    const items = await api({action:'listFolder', folder:ROOT});
+    if (!items || items.error || !Array.isArray(items)) return;
+    const subfolders = items.filter(i => i.mimeType === 'application/vnd.google-apps.folder');
+    let adicionadas = 0;
+    for (const f of subfolders) {
+      if (!obras.find(o => o.driveId === f.id)) {
+        obras.push({id: String(Date.now()+Math.random()), nome: f.name,
+          drive: 'https://drive.google.com/drive/folders/'+f.id,
+          driveId: f.id, visitas: []});
+        adicionadas++;
+      }
+    }
+    if (adicionadas > 0) { renderObras(); updateDashboard(); }
+  } catch(e) { /* silencioso */ }
+}
+
+async async function sincronizarDrive() {
   const btn=document.getElementById('btn-sync');
   const status=document.getElementById('sync-status');
   const preview=document.getElementById('sync-preview');
@@ -1012,6 +1037,8 @@ function showPage(id){
   document.getElementById('page-'+id)?.classList.add('active');
   document.getElementById('topbar-title').textContent=PAGE_TITLES[id]||id;
   const btn=document.querySelector(`.nav-item[onclick*="'${id}'"]`);if(btn)btn.classList.add('active');
+  // Auto sincronizar obras ao abrir a aba
+  if(id==='obras' && !obras.length) sincronizarDrive();
 }
 function initials(n){return(n||'').split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();}
 function badgeClass(t){return{Arquiteto:'badge-arq',Eletricista:'badge-ele',Gesseiro:'badge-ges',Engenheiro:'badge-eng',Cliente:'badge-cli'}[t]||'badge-cli';}
