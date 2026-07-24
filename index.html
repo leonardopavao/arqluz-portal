@@ -571,9 +571,11 @@ async function doLogin() {
   err.style.display='none';
   if (!u||!p) { err.textContent='Preencha usuário e senha.'; err.style.display='block'; return; }
 
-  // Admin local
+  // Admin local — entra imediatamente, sem chamar API
   if (u.toUpperCase()===ADMIN.user && p===ADMIN.pass) {
-    currentUser=ADMIN; launch(); return;
+    currentUser=ADMIN;
+    launch();
+    return;
   }
 
   // Profissional — busca no Sheets
@@ -597,14 +599,28 @@ async function launch() {
 
   if (currentUser.role==='admin') {
     document.getElementById('admin-nav').style.display='block';
-    await carregarDados();
-    showPage('dashboard');
-    // Sincronizar obras em background ao logar
-    if(!obras.length) setTimeout(()=>sincronizarDriveBackground(),1500);
+    showPage('dashboard'); // Entra imediatamente sem esperar
+    updateDashboard();
+    // Carregar Sheets e Drive em background — sem travar o login
+    setTimeout(async () => {
+      try {
+        const res = await api({action:'getAll'});
+        profissionais = res.profissionais||[];
+        obras = res.obras||[];
+        acessos = res.acessos||[];
+        visitas = res.visitas||[];
+        updateDashboard(); renderProfs(); renderObras(); renderAcessos();
+      } catch(e) { /* Sheets indisponível — continua sem dados */ }
+      // Sincronizar Drive independentemente
+      if(!obras.length) sincronizarDriveBackground();
+    }, 500);
   } else {
     document.getElementById('client-nav').style.display='block';
-    await carregarDadosCliente();
     showPage('meus-projetos');
+    // Carregar projetos do cliente em background
+    setTimeout(async () => {
+      try { await carregarDadosCliente(); } catch(e) {}
+    }, 300);
   }
 }
 
