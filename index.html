@@ -16,12 +16,14 @@
   --green:#0F6E56;--green-bg:#E1F5EE;
   --amber:#854F0B;--amber-bg:#FEF3E2;
   --purple:#3C3489;--purple-bg:#EEEDFE;
-  --red:#A32D2D;
+  --red:#A32D2D;--red-bg:#FCEBEB;
   --sidebar-w:240px;
 }
 html,body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-size:14px;line-height:1.6}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
-/* ── LOGIN ── */
+/* LOGIN */
 #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center}
 .login-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:48px 40px;width:380px;box-shadow:0 2px 24px rgba(0,0,0,.06)}
 .login-logo{text-align:center;margin-bottom:32px}
@@ -32,11 +34,12 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;color:
 .login-label{display:block;font-size:11px;font-weight:500;color:var(--text2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
 .login-input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);outline:none;transition:border .15s;margin-bottom:16px}
 .login-input:focus{border-color:var(--accent);background:#fff}
-.login-btn{width:100%;padding:12px;background:var(--text);color:var(--bg);border:none;border-radius:8px;font-size:14px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer;margin-top:4px}
+.login-btn{width:100%;padding:12px;background:var(--text);color:var(--bg);border:none;border-radius:8px;font-size:14px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer}
 .login-btn:hover{opacity:.85}
+.login-btn:disabled{opacity:.5;cursor:not-allowed}
 .login-error{font-size:12px;color:var(--red);margin-top:10px;text-align:center;display:none}
 
-/* ── APP ── */
+/* APP */
 #app{display:none;min-height:100vh}
 #app.visible{display:flex}
 .sidebar{width:var(--sidebar-w);background:var(--text);min-height:100vh;position:fixed;top:0;left:0;display:flex;flex-direction:column;z-index:100}
@@ -67,8 +70,6 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;color:
 .page-hero{margin-bottom:28px}
 .page-hero h1{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400}
 .page-hero p{font-size:13px;color:var(--text3);margin-top:4px}
-
-/* ── STATS ── */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
 .stat-card.accent{background:var(--text)}
@@ -78,11 +79,8 @@ html,body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;color:
 .stat-card.accent .stat-value{color:#fff}
 .stat-sub{font-size:11px;color:var(--text3);margin-top:4px}
 .stat-card.accent .stat-sub{color:rgba(255,255,255,.35)}
-
-/* ── CARD / TABLE ── */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.section-title{font-size:14px;font-weight:500}
 .filters{display:flex;gap:8px;flex-wrap:wrap}
 .filter-btn{padding:6px 14px;border-radius:20px;font-size:12px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;font-family:'Inter',sans-serif}
 .filter-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
@@ -100,18 +98,17 @@ tbody tr:last-child td{border-bottom:none}
 .badge-eng{background:var(--purple-bg);color:var(--purple)}
 .badge-cli{background:var(--surface2);color:var(--text2)}
 .badge-done{background:var(--green-bg);color:var(--green)}
-.badge-review{background:var(--amber-bg);color:var(--amber)}
 .badge-progress{background:var(--blue-bg);color:var(--blue)}
+.badge-review{background:var(--amber-bg);color:var(--amber)}
 .avatar-cell{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
 .actions{display:flex;gap:6px}
 .icon-btn{width:30px;height:30px;border-radius:6px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);transition:all .15s}
 .icon-btn:hover{border-color:var(--border2);background:var(--surface2);color:var(--text)}
 .btn-primary{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif}
 .btn-primary:hover{opacity:.85}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
 .btn-secondary{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif}
 .btn-secondary:hover{border-color:var(--border2);background:var(--surface2)}
-
-/* ── MODAL ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:200}
 .modal-overlay.open{display:flex}
 .modal{background:var(--surface);border-radius:16px;padding:32px;width:520px;max-height:90vh;overflow-y:auto;border:1px solid var(--border)}
@@ -124,8 +121,6 @@ tbody tr:last-child td{border-bottom:none}
 .form-textarea{resize:vertical;min-height:80px}
 .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
 .modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
-
-/* ── ACESSO ── */
 .search-wrap{position:relative;margin-bottom:10px}
 .search-ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text3);pointer-events:none}
 .search-field{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);outline:none}
@@ -138,51 +133,44 @@ tbody tr:last-child td{border-bottom:none}
 .obra-granted-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--blue-bg);border-radius:6px;margin-bottom:6px}
 .obra-granted-name{font-size:13px;font-weight:500;color:var(--blue)}
 .obra-remove-btn{background:none;border:none;cursor:pointer;color:var(--blue);font-size:18px;line-height:1}
-
-/* ── PROJETOS (visão profissional) ── */
 .project-list{display:flex;flex-direction:column;gap:12px}
 .project-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .project-card-header{display:flex;align-items:flex-start;justify-content:space-between;padding:18px 20px 14px}
 .project-title{font-size:14px;font-weight:500;margin-bottom:4px}
 .project-meta{font-size:11px;color:var(--text3);display:flex;gap:12px}
 .project-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-top:1px solid var(--border);background:var(--surface2)}
-.v-chip{padding:4px 10px;border-radius:4px;border:1px solid var(--border);font-size:11px;color:var(--text2);cursor:pointer;background:var(--surface);font-family:'Inter',sans-serif}
-.v-chip.current{background:var(--text);color:#fff;border-color:var(--text)}
 .welcome-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
-
-/* ── ANOTAÇÕES / VISITAS ── */
-.visita-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;margin-right:6px;margin-bottom:6px}
-.visita-chip.active{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
-.visita-chip .del-chip{background:none;border:none;cursor:pointer;color:inherit;font-size:14px;line-height:1;padding:0;margin-left:2px}
-
-/* ── CANVAS DE ANOTAÇÃO ── */
-#annotator-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:none;flex-direction:column}
-#annotator-overlay.open{display:flex}
-.ann-topbar{height:56px;background:#1A1916;display:flex;align-items:center;gap:8px;padding:0 16px;border-bottom:1px solid rgba(255,255,255,.1);flex-shrink:0}
-.ann-title{font-size:13px;color:rgba(255,255,255,.7);margin-right:8px;white-space:nowrap}
-.ann-sep{width:1px;height:28px;background:rgba(255,255,255,.15);margin:0 4px}
-.tool-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:none;cursor:pointer;color:rgba(255,255,255,.6);transition:all .15s;flex-shrink:0}
-.tool-btn:hover{background:rgba(255,255,255,.1);color:#fff}
-.tool-btn.active{background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.4)}
+.file-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-top:8px}
+.loading-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;font-size:13px;color:var(--text3)}
+.loading-spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--text);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+.ann-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:none;flex-direction:column}
+.ann-overlay.open{display:flex}
+.ann-topbar{height:56px;background:#1A1916;display:flex;align-items:center;gap:8px;padding:0 16px;border-bottom:1px solid rgba(255,255,255,.1);flex-shrink:0;flex-wrap:wrap}
+.ann-title{font-size:13px;color:rgba(255,255,255,.7);margin-right:4px;white-space:nowrap}
+.ann-sep{width:1px;height:28px;background:rgba(255,255,255,.15);margin:0 4px;flex-shrink:0}
+.tool-btn{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:none;cursor:pointer;color:rgba(255,255,255,.6);flex-shrink:0}
+.tool-btn:hover,.tool-btn.active{background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.4)}
 .color-dot{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;flex-shrink:0}
 .color-dot.active{border-color:#fff}
 .size-btn{font-size:11px;color:rgba(255,255,255,.6);padding:4px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.15);background:none;cursor:pointer;font-family:'Inter',sans-serif}
 .size-btn.active{background:rgba(255,255,255,.15);color:#fff}
 .ann-spacer{flex:1}
-.save-visit-btn{padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap}
-.close-ann-btn{padding:8px 14px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap}
-.ann-body{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#2C2C2A}
-#ann-pdf-frame{width:100%;height:100%;border:none;background:#fff}
+.save-visit-btn{padding:7px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap}
+.close-ann-btn{padding:7px 12px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif}
+.ann-body{flex:1;position:relative;overflow:hidden;background:#2C2C2A;display:flex;align-items:center;justify-content:center}
+#ann-frame{width:100%;height:100%;border:none;background:#fff}
 #ann-canvas{position:absolute;inset:0;width:100%;height:100%}
-.ann-text-input{position:absolute;background:rgba(255,255,255,.95);border:2px solid var(--accent);border-radius:4px;padding:4px 8px;font-size:14px;font-family:'Inter',sans-serif;outline:none;min-width:120px;display:none;z-index:10}
-
-/* ── TOAST ── */
+#ann-text-inp{position:absolute;display:none;background:rgba(255,255,255,.95);border:2px solid var(--accent);border-radius:4px;padding:4px 8px;font-size:14px;font-family:'Inter',sans-serif;outline:none;z-index:10}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;display:flex;align-items:center;gap:10px;z-index:999;transform:translateY(80px);opacity:0;transition:all .25s;pointer-events:none}
 .toast.show{transform:translateY(0);opacity:1}
 .empty-state{text-align:center;padding:48px 32px}
 .empty-state p{font-size:13px;color:var(--text3)}
 .notif-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:560px}
-<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+.info-box{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:8px;margin-bottom:16px}
+.info-box.green{background:var(--green-bg);border:1px solid #9FE1CB}
+.info-box.amber{background:var(--amber-bg);border:1px solid #FAC775}
+.info-box svg{flex-shrink:0;margin-top:1px}
+</style>
 </head>
 <body>
 
@@ -198,8 +186,8 @@ tbody tr:last-child td{border-bottom:none}
     <input class="login-input" id="lu" type="text" placeholder="seu usuário" autocomplete="off">
     <label class="login-label" for="lp">Senha</label>
     <input class="login-input" id="lp" type="password" placeholder="••••••••">
-    <button class="login-btn" onclick="doLogin()">Entrar</button>
-    <div class="login-error" id="lerr">Usuário ou senha incorretos.</div>
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-error" id="lerr"></div>
   </div>
 </div>
 
@@ -228,11 +216,11 @@ tbody tr:last-child td{border-bottom:none}
       </div>
       <div class="sidebar-section">
         <div class="sidebar-section-label">Sistema</div>
+        <button class="nav-item" onclick="showPage('drive')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12a10 10 0 11-20 0 10 10 0 0120 0z"/><path d="M12 8v4l3 3"/></svg>Drive & Sincronizar
+        </button>
         <button class="nav-item" onclick="showPage('notificacoes')">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Notificações
-        </button>
-        <button class="nav-item" onclick="showPage('drive')">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Integração Drive
         </button>
       </div>
     </div>
@@ -247,7 +235,7 @@ tbody tr:last-child td{border-bottom:none}
       <div class="user-pill">
         <div class="user-avatar" id="sidebar-avatar">LP</div>
         <div><div class="user-name" id="sidebar-name">Leonardo Pavão</div><div class="user-role" id="sidebar-role">Administrador</div></div>
-        <button class="logout-btn" onclick="doLogout()" title="Sair">
+        <button class="logout-btn" onclick="doLogout()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         </button>
       </div>
@@ -264,20 +252,14 @@ tbody tr:last-child td{border-bottom:none}
     <div class="page active" id="page-dashboard">
       <div class="page-hero"><h1>Bom dia, Leonardo</h1><p id="today-date"></p></div>
       <div class="stats-grid">
-        <div class="stat-card accent"><div class="stat-label">Profissionais</div><div class="stat-value" id="stat-profs">0</div><div class="stat-sub">cadastrados</div></div>
-        <div class="stat-card"><div class="stat-label">Obras</div><div class="stat-value" id="stat-obras">0</div><div class="stat-sub">cadastradas</div></div>
-        <div class="stat-card"><div class="stat-label">Acessos dados</div><div class="stat-value" id="stat-acessos">0</div><div class="stat-sub">vínculos ativos</div></div>
-        <div class="stat-card"><div class="stat-label">Visitas salvas</div><div class="stat-value" id="stat-visitas">0</div><div class="stat-sub">anotações em obra</div></div>
+        <div class="stat-card accent"><div class="stat-label">Profissionais</div><div class="stat-value" id="s-profs">0</div><div class="stat-sub">cadastrados</div></div>
+        <div class="stat-card"><div class="stat-label">Obras</div><div class="stat-value" id="s-obras">0</div><div class="stat-sub">no portal</div></div>
+        <div class="stat-card"><div class="stat-label">Acessos</div><div class="stat-value" id="s-acessos">0</div><div class="stat-sub">vínculos ativos</div></div>
+        <div class="stat-card"><div class="stat-label">Visitas salvas</div><div class="stat-value" id="s-visitas">0</div><div class="stat-sub">anotações em obra</div></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-        <div class="card">
-          <div style="padding:18px 20px;border-bottom:1px solid var(--border)"><div class="section-title">Profissionais recentes</div></div>
-          <div id="dash-profs-list"><div class="empty-state"><p>Nenhum profissional cadastrado ainda.</p></div></div>
-        </div>
-        <div class="card">
-          <div style="padding:18px 20px;border-bottom:1px solid var(--border)"><div class="section-title">Obras cadastradas</div></div>
-          <div id="dash-obras-list"><div class="empty-state"><p>Nenhuma obra cadastrada ainda.</p></div></div>
-        </div>
+        <div class="card"><div style="padding:16px 20px;border-bottom:1px solid var(--border);font-size:14px;font-weight:500">Profissionais recentes</div><div id="d-profs"><div class="empty-state"><p>Nenhum ainda.</p></div></div></div>
+        <div class="card"><div style="padding:16px 20px;border-bottom:1px solid var(--border);font-size:14px;font-weight:500">Obras no Drive</div><div id="d-obras"><div class="empty-state"><p>Nenhuma ainda.</p></div></div></div>
       </div>
     </div>
 
@@ -305,16 +287,16 @@ tbody tr:last-child td{border-bottom:none}
 
     <!-- OBRAS -->
     <div class="page" id="page-obras">
-      <div class="page-hero"><h1>Obras</h1><p>Todas as obras e projetos cadastrados no portal</p></div>
+      <div class="page-hero"><h1>Obras</h1><p>Sincronizadas automaticamente com o Google Drive</p></div>
       <div class="section-header">
-        <div></div>
-        <button class="btn-primary" onclick="openModal('modal-obra')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nova obra
+        <div style="font-size:13px;color:var(--text3)">Obras vêm das subpastas de PROJETOS LOJA no Drive</div>
+        <button class="btn-primary" onclick="sincronizarDrive()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Sincronizar Drive
         </button>
       </div>
       <div class="card">
-        <table><thead><tr><th>Obra</th><th>Pasta Drive</th><th>Profissionais</th><th>Visitas salvas</th><th>Ações</th></tr></thead>
-        <tbody id="obras-tbody"><tr><td colspan="5"><div class="empty-state"><p>Nenhuma obra cadastrada.</p></div></td></tr></tbody></table>
+        <table><thead><tr><th>Obra</th><th>ID Drive</th><th>Profissionais</th><th>Ações</th></tr></thead>
+        <tbody id="obras-tbody"><tr><td colspan="4"><div class="empty-state"><p>Clique em "Sincronizar Drive" para importar as obras.</p></div></td></tr></tbody></table>
       </div>
     </div>
 
@@ -322,8 +304,27 @@ tbody tr:last-child td{border-bottom:none}
     <div class="page" id="page-acessos">
       <div class="page-hero"><h1>Controle de acesso</h1><p>Defina quais obras cada profissional pode visualizar</p></div>
       <div class="card">
-        <div style="padding:18px 20px;border-bottom:1px solid var(--border);background:var(--surface2)"><div class="section-title">Profissionais cadastrados</div></div>
-        <div id="acessos-list"><div class="empty-state"><p>Cadastre profissionais e obras primeiro.</p></div></div>
+        <div style="padding:16px 20px;border-bottom:1px solid var(--border);background:var(--surface2);font-size:14px;font-weight:500">Profissionais</div>
+        <div id="acessos-list"><div class="empty-state"><p>Cadastre profissionais e sincronize obras primeiro.</p></div></div>
+      </div>
+    </div>
+
+    <!-- DRIVE -->
+    <div class="page" id="page-drive">
+      <div class="page-hero"><h1>Drive & Sincronizar</h1><p>Leitura automática das subpastas de PROJETOS LOJA</p></div>
+      <div class="notif-card">
+        <div class="info-box green">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <div style="font-size:13px;color:var(--green);font-weight:500">Integração ativa — Apps Script conectado ao Google Drive e Google Sheets.</div>
+        </div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.7">
+          Ao sincronizar, o portal lê todas as subpastas de <strong>PROJETOS LOJA</strong> no Drive e adiciona automaticamente como obras. Qualquer nova pasta que você criar lá dentro aparece aqui após sincronizar.
+        </div>
+        <button class="btn-primary" onclick="sincronizarDrive()" id="btn-sync">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Sincronizar agora
+        </button>
+        <div id="sync-status" style="margin-top:12px;font-size:13px;color:var(--text3)"></div>
+        <div id="sync-preview" style="margin-top:16px"></div>
       </div>
     </div>
 
@@ -341,7 +342,7 @@ Um novo documento foi disponibilizado no seu portal Arq Luz.
 Acesse em: {link}</textarea>
         </div>
         <div class="form-row">
-          <label class="form-label">Variáveis disponíveis</label>
+          <label class="form-label">Variáveis</label>
           <div style="display:flex;flex-wrap:wrap;gap:6px">
             <span style="font-size:11px;padding:3px 10px;background:var(--surface2);border-radius:4px;color:var(--text2)">{nome}</span>
             <span style="font-size:11px;padding:3px 10px;background:var(--surface2);border-radius:4px;color:var(--text2)">{obra}</span>
@@ -353,28 +354,7 @@ Acesse em: {link}</textarea>
       </div>
     </div>
 
-    <!-- INTEGRAÇÃO DRIVE -->
-    <div class="page" id="page-drive">
-      <div class="page-hero"><h1>Integração Google Drive</h1><p>Configure a conexão com sua conta do Google</p></div>
-      <div class="notif-card">
-        <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--amber-bg);border-radius:8px;margin-bottom:20px">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <div style="font-size:13px;color:var(--amber);font-weight:500">Integração pendente — configure a Google Drive API para ativar a leitura automática.</div>
-        </div>
-        <div class="form-row">
-          <label class="form-label">ID da pasta raiz no Drive</label>
-          <input class="form-input" type="text" placeholder="Ex: 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms">
-          <div style="font-size:11px;color:var(--text3);margin-top:4px">Encontre o ID na URL: drive.google.com/drive/folders/<strong>ID_AQUI</strong></div>
-        </div>
-        <div class="form-row">
-          <label class="form-label">Google Service Account (JSON)</label>
-          <textarea class="form-textarea" rows="3" placeholder='{"type":"service_account","project_id":"..."}'></textarea>
-        </div>
-        <button class="btn-primary" onclick="showToast('Salvo! Configure via Google Apps Script.')">Salvar e testar</button>
-      </div>
-    </div>
-
-    <!-- MEUS PROJETOS (profissional) -->
+    <!-- MEUS PROJETOS -->
     <div class="page" id="page-meus-projetos">
       <div id="prof-welcome" class="welcome-card" style="display:none">
         <div>
@@ -386,50 +366,41 @@ Acesse em: {link}</textarea>
           <span class="badge" id="prof-welcome-badge" style="margin-top:4px"></span>
         </div>
       </div>
-      <div id="prof-projetos-list">
-        <div class="empty-state">
-          <p>Quando o administrador adicionar documentos para você, eles aparecerão aqui.</p>
-        </div>
-      </div>
+      <div id="prof-projetos-list"><div class="empty-state"><p>Carregando seus projetos...</p></div></div>
     </div>
 
-    <!-- VISITAS DE UMA OBRA (admin) -->
+    <!-- OBRA DETALHE (admin) -->
     <div class="page" id="page-obra-detalhe">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
         <button class="btn-secondary" onclick="showPage('obras')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>Voltar
         </button>
         <div>
-          <div style="font-size:18px;font-family:'DM Serif Display',serif;font-weight:400" id="detalhe-obra-nome"></div>
-          <div style="font-size:12px;color:var(--text3)" id="detalhe-obra-drive"></div>
+          <div style="font-size:18px;font-family:'DM Serif Display',serif;font-weight:400" id="det-nome"></div>
+          <div style="font-size:12px;color:var(--text3)" id="det-drive"></div>
         </div>
       </div>
-
       <div class="section-header">
-        <div>
-          <div style="font-size:14px;font-weight:500;margin-bottom:4px">Anotações de visita em obra</div>
-          <div style="font-size:12px;color:var(--text3)">Abra o visualizador, rabisque e salve como nova visita</div>
-        </div>
-        <button class="btn-primary" id="btn-nova-visita" onclick="abrirAnnotator()">
+        <div><div style="font-size:14px;font-weight:500">Documentos e anotações</div></div>
+        <button class="btn-primary" onclick="abrirAnnotator()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Nova anotação
         </button>
       </div>
-
-      <div id="visitas-lista"></div>
+      <div id="det-arquivos"><div class="loading-bar"><div class="loading-spin"></div>Carregando arquivos do Drive...</div></div>
+      <div id="det-visitas" style="margin-top:20px"></div>
     </div>
-
   </main>
 </div>
 
-<!-- MODAL: NOVO PROFISSIONAL -->
+<!-- MODAIS -->
 <div class="modal-overlay" id="modal-prof">
   <div class="modal">
     <div class="modal-title">Cadastrar profissional</div>
-    <div class="modal-sub">Preencha os dados para criar o acesso no portal</div>
+    <div class="modal-sub">Os dados ficam salvos no Google Sheets</div>
     <div class="form-row-2">
-      <div><label class="form-label">Nome completo</label><input class="form-input" id="prof-nome" type="text" placeholder="Nome completo"></div>
+      <div><label class="form-label">Nome completo</label><input class="form-input" id="p-nome" type="text" placeholder="Nome completo"></div>
       <div><label class="form-label">Tipo</label>
-        <select class="form-select" id="prof-tipo">
+        <select class="form-select" id="p-tipo">
           <option value="Arquiteto">Arquiteto(a)</option>
           <option value="Eletricista">Eletricista</option>
           <option value="Gesseiro">Gesseiro(a)</option>
@@ -438,713 +409,551 @@ Acesse em: {link}</textarea>
         </select>
       </div>
     </div>
-    <div class="form-row"><label class="form-label">WhatsApp</label><input class="form-input" id="prof-whatsapp" type="tel" placeholder="(17) 99999-0000"></div>
+    <div class="form-row"><label class="form-label">WhatsApp</label><input class="form-input" id="p-wpp" type="tel" placeholder="(17) 99999-0000"></div>
     <div class="form-row-2">
-      <div><label class="form-label">Usuário (login)</label><input class="form-input" id="prof-usuario" type="text" placeholder="ex: guilherme"></div>
-      <div><label class="form-label">Senha</label><input class="form-input" id="prof-senha" type="text" placeholder="Senha de acesso"></div>
+      <div><label class="form-label">Usuário (login)</label><input class="form-input" id="p-user" type="text" placeholder="ex: guilherme"></div>
+      <div><label class="form-label">Senha</label><input class="form-input" id="p-pass" type="text" placeholder="Senha de acesso"></div>
     </div>
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeModal('modal-prof')">Cancelar</button>
-      <button class="btn-primary" onclick="salvarProf()">Cadastrar</button>
+      <button class="btn-primary" id="btn-add-prof" onclick="salvarProf()">Cadastrar</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL: NOVA OBRA -->
-<div class="modal-overlay" id="modal-obra">
-  <div class="modal">
-    <div class="modal-title">Cadastrar obra</div>
-    <div class="modal-sub">Vincule uma pasta do Google Drive a esta obra</div>
-    <div class="form-row"><label class="form-label">Nome da obra</label><input class="form-input" id="obra-nome" type="text" placeholder="Ex: Residência Jardins"></div>
-    <div class="form-row"><label class="form-label">Link da pasta no Google Drive</label><input class="form-input" id="obra-drive" type="text" placeholder="https://drive.google.com/drive/folders/..."></div>
-    <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-obra')">Cancelar</button>
-      <button class="btn-primary" onclick="salvarObra()">Cadastrar obra</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: ACESSO -->
 <div class="modal-overlay" id="modal-acesso">
   <div class="modal">
-    <div class="modal-title" id="acesso-modal-title">Gerenciar acesso</div>
+    <div class="modal-title" id="acesso-title">Gerenciar acesso</div>
     <div class="modal-sub">Busque as obras que este profissional pode visualizar</div>
     <div class="search-wrap">
       <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input class="search-field" id="acesso-search" type="text" placeholder="Buscar obra por nome..." oninput="filtrarObrasAcesso()" autocomplete="off">
+      <input class="search-field" id="acesso-search" type="text" placeholder="Buscar obra..." oninput="filtrarObrasAcesso()" autocomplete="off">
     </div>
     <div class="obras-results" id="acesso-results"></div>
     <div style="margin-top:10px">
-      <div style="font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Obras com acesso liberado</div>
-      <div id="acesso-granted-list"><div style="font-size:12px;color:var(--text3);text-align:center;padding:12px">Nenhuma obra selecionada.</div></div>
+      <div style="font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Com acesso</div>
+      <div id="acesso-granted"><div style="font-size:12px;color:var(--text3);padding:8px">Nenhuma obra selecionada.</div></div>
     </div>
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeModal('modal-acesso')">Cancelar</button>
-      <button class="btn-primary" onclick="salvarAcesso()">Salvar acesso</button>
+      <button class="btn-primary" id="btn-save-acesso" onclick="salvarAcesso()">Salvar</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL: SALVAR VISITA -->
-<div class="modal-overlay" id="modal-salvar-visita">
+<div class="modal-overlay" id="modal-visita">
   <div class="modal" style="width:400px">
     <div class="modal-title">Salvar anotação</div>
-    <div class="modal-sub">Escolha o nome desta visita ou aceite o sugerido</div>
-    <div class="form-row">
-      <label class="form-label">Nome da visita</label>
-      <input class="form-input" id="visita-nome-input" type="text" placeholder="Visita em obra 1">
-    </div>
+    <div class="modal-sub">Escolha o nome desta visita</div>
+    <div class="form-row"><label class="form-label">Nome</label><input class="form-input" id="visita-nome" type="text"></div>
     <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-salvar-visita')">Cancelar</button>
-      <button class="btn-primary" onclick="confirmarSalvarVisita()">Salvar</button>
+      <button class="btn-secondary" onclick="closeModal('modal-visita')">Cancelar</button>
+      <button class="btn-primary" id="btn-salvar-visita" onclick="confirmarVisita()">Salvar</button>
     </div>
   </div>
 </div>
 
 <!-- ANOTADOR -->
-<div id="annotator-overlay">
+<div class="ann-overlay" id="ann-overlay">
   <div class="ann-topbar">
     <span class="ann-title" id="ann-title">Anotação</span>
     <div class="ann-sep"></div>
-    <!-- Ferramentas -->
-    <button class="tool-btn active" id="tool-pen" onclick="setTool('pen')" title="Caneta livre">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    <button class="tool-btn active" id="tool-pen" onclick="setTool('pen')" title="Caneta">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
     </button>
     <button class="tool-btn" id="tool-rect" onclick="setTool('rect')" title="Retângulo">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
     </button>
     <button class="tool-btn" id="tool-circle" onclick="setTool('circle')" title="Círculo">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/></svg>
     </button>
     <button class="tool-btn" id="tool-arrow" onclick="setTool('arrow')" title="Seta">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
     </button>
     <button class="tool-btn" id="tool-text" onclick="setTool('text')" title="Texto">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
     </button>
     <button class="tool-btn" id="tool-eraser" onclick="setTool('eraser')" title="Borracha">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 20H7L3 16l10-10 7 7-3.5 3.5"/><path d="M6 11l7 7"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 20H7L3 16l10-10 7 7-3.5 3.5"/></svg>
     </button>
     <div class="ann-sep"></div>
-    <!-- Cores -->
-    <div class="color-dot active" style="background:#E24B4A" onclick="setColor('#E24B4A',this)" title="Vermelho"></div>
-    <div class="color-dot" style="background:#EF9F27" onclick="setColor('#EF9F27',this)" title="Laranja"></div>
-    <div class="color-dot" style="background:#185FA5" onclick="setColor('#185FA5',this)" title="Azul"></div>
-    <div class="color-dot" style="background:#0F6E56" onclick="setColor('#0F6E56',this)" title="Verde"></div>
-    <div class="color-dot" style="background:#1A1916" onclick="setColor('#1A1916',this)" title="Preto"></div>
+    <div class="color-dot active" style="background:#E24B4A" onclick="setColor('#E24B4A',this)"></div>
+    <div class="color-dot" style="background:#EF9F27" onclick="setColor('#EF9F27',this)"></div>
+    <div class="color-dot" style="background:#185FA5" onclick="setColor('#185FA5',this)"></div>
+    <div class="color-dot" style="background:#0F6E56" onclick="setColor('#0F6E56',this)"></div>
+    <div class="color-dot" style="background:#1A1916" onclick="setColor('#1A1916',this)"></div>
     <div class="ann-sep"></div>
-    <!-- Espessura -->
-    <button class="size-btn active" onclick="setSize(2,this)" title="Fino">P</button>
-    <button class="size-btn" onclick="setSize(4,this)" title="Médio">M</button>
-    <button class="size-btn" onclick="setSize(8,this)" title="Grosso">G</button>
+    <button class="size-btn active" onclick="setSize(2,this)">P</button>
+    <button class="size-btn" onclick="setSize(4,this)">M</button>
+    <button class="size-btn" onclick="setSize(8,this)">G</button>
     <div class="ann-sep"></div>
-    <button class="tool-btn" onclick="undoStroke()" title="Desfazer (Ctrl+Z)">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 00-4-4H4"/></svg>
+    <button class="tool-btn" onclick="undoStroke()" title="Desfazer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 00-4-4H4"/></svg>
     </button>
-    <button class="tool-btn" onclick="clearCanvas()" title="Limpar tudo">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+    <button class="tool-btn" onclick="clearAnn()" title="Limpar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
     </button>
     <div class="ann-spacer"></div>
-    <button class="close-ann-btn" onclick="fecharAnnotator()">Fechar</button>
+    <button class="close-ann-btn" onclick="fecharAnn()">Fechar</button>
     <button class="save-visit-btn" onclick="pedirNomeVisita()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:4px"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Salvar visita
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:4px"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>Salvar visita
     </button>
   </div>
   <div class="ann-body">
-    <iframe id="ann-pdf-frame" title="PDF para anotação"></iframe>
+    <iframe id="ann-frame" title="PDF"></iframe>
     <canvas id="ann-canvas"></canvas>
-    <input class="ann-text-input" id="ann-text-input" type="text" placeholder="Digite e pressione Enter">
+    <input class="ann-text-inp" id="ann-text-inp" type="text" placeholder="Digite e Enter">
   </div>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-  <span id="toast-msg">OK</span>
-</div>
+<div class="toast" id="toast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span id="toast-msg">OK</span></div>
 
 <script>
-// ── DRIVE CONFIG ─────────────────────────────────────
-const DRIVE_SCRIPT = 'https://script.google.com/macros/s/AKfycbwsupCtaJm8BEtJzPFd759sthprOjQG_ubbgeernDeG1ZJDXKuv_ZDK9bP-Pp9x1Nf2/exec';
-const DRIVE_ROOT   = '1w8xkpW4JbpwfdWoUwWm6gflS9Si0B9Rj';
-
-// ── DADOS ────────────────────────────────────────────────
+// ── CONFIG ────────────────────────────────────────────
+const API = 'https://script.google.com/macros/s/AKfycbwsupCtaJm8BEtJzPFd759sthprOjQG_ubbgeernDeG1ZJDXKuv_ZDK9bP-Pp9x1Nf2/exec';
+const ROOT = '1w8xkpW4JbpwfdWoUwWm6gflS9Si0B9Rj';
 const ADMIN = {user:'ADMIN',pass:'1234',name:'Leonardo Pavão',initials:'LP',role:'admin',roleLabel:'Administrador'};
-let profissionais=[]; let obras=[]; let nextProfId=1; let nextObraId=1;
-let currentUser=null; let acessoEditandoId=null; let acessoTemp=new Set();
+
+// ── STATE ─────────────────────────────────────────────
+let profissionais=[], obras=[], acessos=[], visitas=[];
+let currentUser=null, acessoEditId=null, acessoTemp=new Set();
 let obraDetalheId=null;
 
-// ── LOGIN ────────────────────────────────────────────────
-function doLogin(){
-  const u=document.getElementById('lu').value.trim().toUpperCase();
-  const p=document.getElementById('lp').value;
-  if(u===ADMIN.user&&p===ADMIN.pass){currentUser=ADMIN;doLaunch();return;}
-  const prof=profissionais.find(x=>x.usuario.toUpperCase()===u&&x.senha===p);
-  if(prof){currentUser={...prof,role:'client',roleLabel:prof.tipo};doLaunch();return;}
-  document.getElementById('lerr').style.display='block';
+// ── API CALL ──────────────────────────────────────────
+async function api(params) {
+  const url = API + '?' + new URLSearchParams(params).toString();
+  const r = await fetch(url);
+  return r.json();
 }
-document.getElementById('lp').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-function doLaunch(){
-  document.getElementById('lerr').style.display='none';
+
+// ── LOGIN ─────────────────────────────────────────────
+async function doLogin() {
+  const u = document.getElementById('lu').value.trim();
+  const p = document.getElementById('lp').value;
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('lerr');
+  err.style.display='none';
+  if (!u||!p) { err.textContent='Preencha usuário e senha.'; err.style.display='block'; return; }
+
+  // Admin local
+  if (u.toUpperCase()===ADMIN.user && p===ADMIN.pass) {
+    currentUser=ADMIN; launch(); return;
+  }
+
+  // Profissional — busca no Sheets
+  btn.disabled=true; btn.textContent='Entrando...';
+  try {
+    const res = await api({action:'login', usuario:u, senha:p});
+    if (res.error) { err.textContent=res.error; err.style.display='block'; }
+    else { currentUser={...res.prof, role:'client', roleLabel:res.prof.tipo}; launch(); }
+  } catch(e) { err.textContent='Erro de conexão. Tente novamente.'; err.style.display='block'; }
+  btn.disabled=false; btn.textContent='Entrar';
+}
+document.getElementById('lp').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+
+async function launch() {
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').classList.add('visible');
   document.getElementById('sidebar-name').textContent=currentUser.name||currentUser.nome;
   document.getElementById('sidebar-avatar').textContent=currentUser.initials||initials(currentUser.nome||'');
   document.getElementById('sidebar-role').textContent=currentUser.roleLabel;
   document.getElementById('today-date').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  if(currentUser.role==='admin'){document.getElementById('admin-nav').style.display='block';updateDashboard();showPage('dashboard');}
-  else{document.getElementById('client-nav').style.display='block';renderMeusProjetos();showPage('meus-projetos');}
+
+  if (currentUser.role==='admin') {
+    document.getElementById('admin-nav').style.display='block';
+    await carregarDados();
+    showPage('dashboard');
+  } else {
+    document.getElementById('client-nav').style.display='block';
+    await carregarDadosCliente();
+    showPage('meus-projetos');
+  }
 }
-function doLogout(){
-  currentUser=null;
+
+function doLogout() {
+  currentUser=null; profissionais=[]; obras=[]; acessos=[]; visitas=[];
   document.getElementById('app').classList.remove('visible');
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('admin-nav').style.display='none';
   document.getElementById('client-nav').style.display='none';
-  document.getElementById('lu').value='';document.getElementById('lp').value='';
+  document.getElementById('lu').value=''; document.getElementById('lp').value='';
 }
 
-// ── NAVEGAÇÃO ────────────────────────────────────────────
-const PAGE_TITLES={dashboard:'Dashboard',profissionais:'Profissionais',obras:'Obras',acessos:'Controle de acesso',notificacoes:'Notificações',drive:'Integração Drive','meus-projetos':'Meus Projetos','obra-detalhe':'Detalhes da obra'};
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  document.getElementById('topbar-title').textContent=PAGE_TITLES[id]||id;
-  const btn=document.querySelector(`.nav-item[onclick*="'${id}'"]`);
-  if(btn)btn.classList.add('active');
-  if(id==='dashboard')updateDashboard();
-  if(id==='profissionais')renderProfs();
-  if(id==='obras')renderObras();
-  if(id==='acessos')renderAcessos();
+// ── CARREGAR DADOS (admin) ────────────────────────────
+async function carregarDados() {
+  try {
+    const res = await api({action:'getAll'});
+    profissionais = res.profissionais||[];
+    obras = res.obras||[];
+    acessos = res.acessos||[];
+    visitas = res.visitas||[];
+    updateDashboard(); renderProfs(); renderObras(); renderAcessos();
+  } catch(e) { showToast('Erro ao carregar dados do Sheets.'); }
 }
 
-// ── HELPERS ──────────────────────────────────────────────
-function initials(n){return n.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();}
-function badgeClass(t){return{Arquiteto:'badge-arq',Eletricista:'badge-ele',Gesseiro:'badge-ges',Engenheiro:'badge-eng',Cliente:'badge-cli'}[t]||'badge-cli';}
-function avatarStyle(t){return{Arquiteto:'background:#E8F1FB;color:#0C447C',Eletricista:'background:#E1F5EE;color:#085041',Gesseiro:'background:#FEF3E2;color:#633806',Engenheiro:'background:#EEEDFE;color:#3C3489',Cliente:'background:#F0EDE6;color:#6B6860'}[t]||'';}
-function totalVisitas(){return obras.reduce((s,o)=>s+(o.visitas?o.visitas.length:0),0);}
+// ── CARREGAR DADOS (cliente) ──────────────────────────
+async function carregarDadosCliente() {
+  const p = currentUser;
+  document.getElementById('prof-welcome-name').textContent=p.nome||p.name;
+  const badge=document.getElementById('prof-welcome-badge');
+  badge.textContent=p.tipo||'Profissional';
+  badge.className='badge '+(badgeClass(p.tipo)||'badge-cli');
+  document.getElementById('prof-welcome').style.display='flex';
 
-// ── DASHBOARD ────────────────────────────────────────────
-function updateDashboard(){
-  document.getElementById('stat-profs').textContent=profissionais.length;
-  document.getElementById('stat-obras').textContent=obras.length;
-  document.getElementById('stat-acessos').textContent=profissionais.reduce((s,p)=>s+p.obras.size,0);
-  document.getElementById('stat-visitas').textContent=totalVisitas();
-  const pl=document.getElementById('dash-profs-list');
-  pl.innerHTML=profissionais.length?'<table><tbody>'+profissionais.slice(-4).reverse().map(p=>`<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-cell" style="${avatarStyle(p.tipo)}">${initials(p.nome)}</div><div class="name-cell">${p.nome}</div></div></td><td><span class="badge ${badgeClass(p.tipo)}">${p.tipo}</span></td><td style="font-size:12px;color:var(--text3)">${p.obras.size} obras</td></tr>`).join('')+'</tbody></table>':'<div class="empty-state"><p>Nenhum profissional ainda.</p></div>';
-  const ol=document.getElementById('dash-obras-list');
-  ol.innerHTML=obras.length?'<table><tbody>'+obras.slice(-4).reverse().map(o=>`<tr><td><div class="name-cell">${o.nome}</div></td><td style="font-size:12px;color:var(--text3)">${(o.visitas||[]).length} visita${(o.visitas||[]).length!==1?'s':''}</td></tr>`).join('')+'</tbody></table>':'<div class="empty-state"><p>Nenhuma obra ainda.</p></div>';
+  const obraIds = p.obraIds || [];
+  if (!obraIds.length) {
+    document.getElementById('prof-projetos-list').innerHTML='<div class="empty-state"><p>Nenhum projeto disponível ainda.</p></div>';
+    return;
+  }
+
+  // Carregar obras do Sheets para ter os driveIds
+  try {
+    const res = await api({action:'getAll'});
+    obras = res.obras||[];
+    visitas = res.visitas||[];
+  } catch(e) {}
+
+  const minhasObras = obraIds.map(id=>obras.find(o=>o.id.toString()===id.toString())).filter(Boolean);
+  await renderClienteObras(minhasObras);
 }
 
-// ── PROFISSIONAIS ─────────────────────────────────────────
-function renderProfs(filtro='todos'){
+async function renderClienteObras(minhasObras) {
+  const lista = document.getElementById('prof-projetos-list');
+  if (!minhasObras.length) { lista.innerHTML='<div class="empty-state"><p>Nenhum projeto disponível.</p></div>'; return; }
+  lista.innerHTML='<div class="project-list" id="client-cards"></div>';
+  const cards=[];
+  for (const o of minhasObras) {
+    let arquivos=[];
+    if (o.driveId) {
+      try { const r=await api({action:'listFolder',folder:o.driveId}); arquivos=r.filter?.(f=>f.mimeType!=='application/vnd.google-apps.folder')||[]; } catch(e){}
+    }
+    const vis=(visitas||[]).filter(v=>v.obraId.toString()===o.id.toString());
+    cards.push(`
+      <div class="project-card">
+        <div class="project-card-header">
+          <div><div class="project-title">${o.nome}</div>
+          <div class="project-meta"><span>${arquivos.length} doc${arquivos.length!==1?'s':''}</span>${vis.length?`<span>·</span><span>${vis.length} visita${vis.length!==1?'s':''}</span>`:''}</div></div>
+          <span class="badge badge-progress">Ativo</span>
+        </div>
+        ${arquivos.length?`<div style="padding:0 20px 14px">${arquivos.map(f=>`
+          <div class="file-row">
+            <div style="display:flex;align-items:center;gap:10px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <div><div style="font-size:13px;font-weight:500">${f.name}</div><div style="font-size:11px;color:var(--text3)">${new Date(f.modified).toLocaleDateString('pt-BR')}</div></div>
+            </div>
+            <div style="display:flex;gap:6px">
+              <a href="${f.preview}" target="_blank" class="btn-secondary" style="text-decoration:none;font-size:12px">Ver</a>
+              <a href="${f.download}" target="_blank" class="btn-primary" style="text-decoration:none;font-size:12px">Baixar</a>
+            </div>
+          </div>`).join('')}</div>`:`<div class="project-footer"><span style="font-size:12px;color:var(--text3)">Nenhum documento ainda.</span></div>`}
+        ${vis.length?`<div style="padding:0 20px 14px;border-top:1px solid var(--border);margin-top:4px">
+          <div style="font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;padding-top:12px;margin-bottom:8px">Visitas em obra</div>
+          ${vis.map(v=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--amber-bg);border-radius:6px;margin-bottom:6px">
+            <div><div style="font-size:13px;font-weight:500;color:var(--amber)">${v.nome}</div><div style="font-size:11px;color:var(--amber);opacity:.7">${v.data}</div></div>
+            <img src="${v.imagem}" onclick="window.open('${v.imagem}')" style="height:40px;border-radius:4px;cursor:pointer">
+          </div>`).join('')}</div>`:''}
+      </div>`);
+  }
+  const c=document.getElementById('client-cards');
+  if(c) c.innerHTML=cards.join('');
+}
+
+// ── SINCRONIZAR DRIVE ─────────────────────────────────
+async function sincronizarDrive() {
+  const btn=document.getElementById('btn-sync');
+  const status=document.getElementById('sync-status');
+  const preview=document.getElementById('sync-preview');
+  if(btn){btn.disabled=true;btn.innerHTML='<div class="loading-spin" style="width:14px;height:14px;border-width:2px;display:inline-block;vertical-align:-3px;margin-right:6px"></div>Sincronizando...';}
+  if(status)status.textContent='Conectando ao Drive...';
+
+  try {
+    const items = await api({action:'listFolder', folder:ROOT});
+    if (items.error) throw new Error(items.error);
+    const pastas = items.filter(i=>i.mimeType==='application/vnd.google-apps.folder');
+
+    // Adicionar novas obras no Sheets
+    let adicionadas=0;
+    for (const p of pastas) {
+      const jaExiste = obras.find(o=>o.driveId===p.id);
+      if (!jaExiste) {
+        const r = await api({action:'addObra', nome:p.name, driveId:p.id});
+        if (r.ok) { obras.push({id:r.id, nome:p.name, driveId:p.id}); adicionadas++; }
+      }
+    }
+
+    if(status)status.innerHTML=`<span style="color:var(--green)">✓ ${pastas.length} pasta${pastas.length!==1?'s':''} encontrada${pastas.length!==1?'s':''} no Drive${adicionadas?', '+adicionadas+' nova'+( adicionadas!==1?'s':''):' (já sincronizado)'}</span>`;
+    if(preview)preview.innerHTML=pastas.length?'<div style="margin-top:8px">'+pastas.map(p=>`
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:6px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span style="font-size:13px;font-weight:500">${p.name}</span>
+      </div>`).join('')+'</div>':'<p style="font-size:13px;color:var(--text3);margin-top:8px">Nenhuma subpasta encontrada em PROJETOS LOJA.</p>';
+
+    renderObras(); renderAcessos(); updateDashboard();
+    showToast(adicionadas>0?adicionadas+' obra'+( adicionadas!==1?'s':'')+' adicionada'+( adicionadas!==1?'s':'')+'!':'Drive já sincronizado!');
+  } catch(e) {
+    if(status)status.innerHTML=`<span style="color:var(--red)">Erro: ${e.message}</span>`;
+    showToast('Erro ao sincronizar: '+e.message);
+  }
+  if(btn){btn.disabled=false;btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Sincronizar agora';}
+}
+
+// ── DASHBOARD ─────────────────────────────────────────
+function updateDashboard() {
+  document.getElementById('s-profs').textContent=profissionais.length;
+  document.getElementById('s-obras').textContent=obras.length;
+  document.getElementById('s-acessos').textContent=acessos.length;
+  document.getElementById('s-visitas').textContent=visitas.length;
+  document.getElementById('d-profs').innerHTML=profissionais.length
+    ?'<table><tbody>'+profissionais.slice(-4).reverse().map(p=>`<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar-cell" style="${avStyle(p.tipo)}">${initials(p.nome)}</div><div class="name-cell">${p.nome}</div></div></td><td><span class="badge ${badgeClass(p.tipo)}">${p.tipo}</span></td></tr>`).join('')+'</tbody></table>'
+    :'<div class="empty-state"><p>Nenhum ainda.</p></div>';
+  document.getElementById('d-obras').innerHTML=obras.length
+    ?'<table><tbody>'+obras.slice(-4).reverse().map(o=>`<tr><td><div class="name-cell">${o.nome}</div></td></tr>`).join('')+'</tbody></table>'
+    :'<div class="empty-state"><p>Sincronize o Drive primeiro.</p></div>';
+}
+
+// ── PROFISSIONAIS ─────────────────────────────────────
+function renderProfs(filtro='todos') {
   const lista=filtro==='todos'?profissionais:profissionais.filter(p=>p.tipo===filtro);
   document.getElementById('profs-tbody').innerHTML=lista.length?lista.map(p=>`
-    <tr><td><div style="display:flex;align-items:center;gap:12px"><div class="avatar-cell" style="${avatarStyle(p.tipo)}">${initials(p.nome)}</div><div><div class="name-cell">${p.nome}</div><div class="sub-cell">${p.usuario}</div></div></div></td>
+    <tr><td><div style="display:flex;align-items:center;gap:12px"><div class="avatar-cell" style="${avStyle(p.tipo)}">${initials(p.nome)}</div>
+    <div><div class="name-cell">${p.nome}</div><div class="sub-cell">${p.usuario}</div></div></div></td>
     <td><span class="badge ${badgeClass(p.tipo)}">${p.tipo}</span></td>
     <td style="font-size:12px;color:var(--text2)">${p.whatsapp||'—'}</td>
-    <td style="font-size:12px;color:var(--text2)">${p.obras.size} obra${p.obras.size!==1?'s':''}</td>
+    <td style="font-size:12px;color:var(--text2)">${acessos.filter(a=>a.profId.toString()===p.id.toString()).length} obra(s)</td>
     <td style="font-size:12px;color:var(--text3)">${p.usuario}</td>
     <td><div class="actions">
-      <button class="icon-btn" title="Gerenciar acesso" onclick="abrirAcesso(${p.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></button>
-      <button class="icon-btn" title="Excluir" onclick="excluirProf(${p.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
-    </div></td></tr>`).join(''):'<tr><td colspan="6"><div class="empty-state"><p>Nenhum profissional cadastrado.</p></div></td></tr>';
+      <button class="icon-btn" onclick="abrirAcesso('${p.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></button>
+      <button class="icon-btn" onclick="excluirProf('${p.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+    </div></td></tr>`).join('')
+    :'<tr><td colspan="6"><div class="empty-state"><p>Nenhum profissional cadastrado.</p></div></td></tr>';
 }
 function filterProfs(btn,tipo){document.querySelectorAll('#page-profissionais .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderProfs(tipo);}
-function salvarProf(){
-  const nome=document.getElementById('prof-nome').value.trim();
-  const tipo=document.getElementById('prof-tipo').value;
-  const whatsapp=document.getElementById('prof-whatsapp').value.trim();
-  const usuario=document.getElementById('prof-usuario').value.trim();
-  const senha=document.getElementById('prof-senha').value.trim();
-  if(!nome||!usuario||!senha){showToast('Preencha nome, usuário e senha.');return;}
-  if(profissionais.find(p=>p.usuario.toLowerCase()===usuario.toLowerCase())){showToast('Usuário já existe.');return;}
-  profissionais.push({id:nextProfId++,nome,tipo,whatsapp,usuario,senha,obras:new Set()});
+
+async function salvarProf() {
+  const nome=document.getElementById('p-nome').value.trim();
+  const tipo=document.getElementById('p-tipo').value;
+  const wpp=document.getElementById('p-wpp').value.trim();
+  const user=document.getElementById('p-user').value.trim();
+  const pass=document.getElementById('p-pass').value.trim();
+  if(!nome||!user||!pass){showToast('Preencha nome, usuário e senha.');return;}
+  const btn=document.getElementById('btn-add-prof');
+  btn.disabled=true;btn.textContent='Salvando...';
+  const r=await api({action:'addProfissional',nome,tipo,whatsapp:wpp,usuario:user,senha:pass});
+  btn.disabled=false;btn.textContent='Cadastrar';
+  if(r.error){showToast('Erro: '+r.error);return;}
+  profissionais.push({id:r.id,nome,tipo,whatsapp:wpp,usuario:user});
   closeModal('modal-prof');
-  ['prof-nome','prof-whatsapp','prof-usuario','prof-senha'].forEach(id=>document.getElementById(id).value='');
-  renderProfs();showToast(nome+' cadastrado!');
+  ['p-nome','p-wpp','p-user','p-pass'].forEach(id=>document.getElementById(id).value='');
+  renderProfs();updateDashboard();showToast(nome+' cadastrado!');
 }
-function excluirProf(id){
+
+async function excluirProf(id){
   if(!confirm('Excluir este profissional?'))return;
-  profissionais=profissionais.filter(p=>p.id!==id);
+  await api({action:'deleteProfissional',id});
+  profissionais=profissionais.filter(p=>p.id.toString()!==id.toString());
+  acessos=acessos.filter(a=>a.profId.toString()!==id.toString());
   renderProfs();renderAcessos();updateDashboard();showToast('Removido.');
 }
 
-// ── OBRAS ─────────────────────────────────────────────────
+// ── OBRAS ─────────────────────────────────────────────
 function renderObras(){
   document.getElementById('obras-tbody').innerHTML=obras.length?obras.map(o=>{
-    const profs=profissionais.filter(p=>p.obras.has(o.id)).length;
-    const vis=(o.visitas||[]).length;
+    const n=acessos.filter(a=>a.obraId.toString()===o.id.toString()).length;
     return`<tr>
       <td><div class="name-cell">${o.nome}</div></td>
-      <td><a href="${o.drive||'#'}" target="_blank" style="font-size:12px;color:var(--blue);text-decoration:none">${o.drive?'Abrir pasta ↗':'—'}</a></td>
-      <td style="font-size:12px;color:var(--text2)">${profs} profissional${profs!==1?'is':''}</td>
-      <td style="font-size:12px;color:var(--text2)">${vis} visita${vis!==1?'s':''}</td>
+      <td style="font-size:11px;color:var(--text3);font-family:monospace">${o.driveId||'—'}</td>
+      <td style="font-size:12px;color:var(--text2)">${n} profissional${n!==1?'is':''}</td>
       <td><div class="actions">
-        <button class="icon-btn" title="Ver detalhes e visitas" onclick="abrirObraDetalhe(${o.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-        <button class="icon-btn" title="Excluir" onclick="excluirObra(${o.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
-      </div></td></tr>`;
-  }).join(''):'<tr><td colspan="5"><div class="empty-state"><p>Nenhuma obra cadastrada.</p></div></td></tr>';
+        <button class="icon-btn" title="Ver detalhes" onclick="abrirObraDetalhe('${o.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        <button class="icon-btn" title="Excluir" onclick="excluirObra('${o.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+      </div></td></tr>`;}).join('')
+    :'<tr><td colspan="4"><div class="empty-state"><p>Clique em "Sincronizar Drive" para importar as obras.</p></div></td></tr>';
 }
-function salvarObra(){
-  const nome=document.getElementById('obra-nome').value.trim();
-  const drive=document.getElementById('obra-drive').value.trim();
-  if(!nome){showToast('Informe o nome da obra.');return;}
-  obras.push({id:nextObraId++,nome,drive,visitas:[]});
-  closeModal('modal-obra');
-  document.getElementById('obra-nome').value='';document.getElementById('obra-drive').value='';
-  renderObras();renderAcessos();showToast('"'+nome+'" cadastrada!');
-}
-function excluirObra(id){
+
+async function excluirObra(id){
   if(!confirm('Excluir esta obra?'))return;
-  obras=obras.filter(o=>o.id!==id);
-  profissionais.forEach(p=>p.obras.delete(id));
-  renderObras();renderAcessos();showToast('Obra removida.');
+  await api({action:'deleteObra',id});
+  obras=obras.filter(o=>o.id.toString()!==id.toString());
+  acessos=acessos.filter(a=>a.obraId.toString()!==id.toString());
+  renderObras();renderAcessos();updateDashboard();showToast('Obra removida.');
 }
 
-// ── DETALHE DA OBRA + VISITAS ─────────────────────────────
-function abrirObraDetalhe(id){
+// ── OBRA DETALHE ──────────────────────────────────────
+async function abrirObraDetalhe(id) {
   obraDetalheId=id;
-  const o=obras.find(x=>x.id===id);
-  document.getElementById('detalhe-obra-nome').textContent=o.nome;
-  document.getElementById('detalhe-obra-drive').textContent=o.drive||'Pasta Drive não configurada';
-  renderVisitas();
+  const o=obras.find(x=>x.id.toString()===id.toString());
+  document.getElementById('det-nome').textContent=o.nome;
+  document.getElementById('det-drive').textContent=o.driveId?'Drive ID: '+o.driveId:'Sem pasta vinculada';
+  renderDetVisitas();
   showPage('obra-detalhe');
+  // Carregar arquivos do Drive
+  const el=document.getElementById('det-arquivos');
+  el.innerHTML='<div class="loading-bar"><div class="loading-spin"></div>Carregando arquivos...</div>';
+  if (!o.driveId) { el.innerHTML='<div class="empty-state"><p>Esta obra não tem pasta no Drive vinculada.</p></div>'; return; }
+  try {
+    const items=await api({action:'listFolder',folder:o.driveId});
+    const arquivos=items.filter?.(f=>f.mimeType!=='application/vnd.google-apps.folder')||[];
+    el.innerHTML=arquivos.length
+      ?'<div class="card"><div style="padding:16px 20px;border-bottom:1px solid var(--border);font-size:14px;font-weight:500">Documentos no Drive ('+arquivos.length+')</div>'+
+        arquivos.map(f=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:12px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div><div style="font-size:13px;font-weight:500">${f.name}</div><div style="font-size:11px;color:var(--text3)">${new Date(f.modified).toLocaleDateString('pt-BR')}</div></div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <a href="${f.preview}" target="_blank" class="btn-secondary" style="text-decoration:none;font-size:12px">Visualizar</a>
+            <a href="${f.download}" target="_blank" class="btn-primary" style="text-decoration:none;font-size:12px">Baixar</a>
+          </div>
+        </div>`).join('')+'</div>'
+      :'<div class="empty-state"><p>Nenhum arquivo nesta pasta ainda. Suba PDFs no Drive.</p></div>';
+  } catch(e) { el.innerHTML='<div class="empty-state"><p>Erro ao carregar: '+e.message+'</p></div>'; }
 }
 
-function renderVisitas(){
-  const o=obras.find(x=>x.id===obraDetalheId);
-  const el=document.getElementById('visitas-lista');
-  if(!o||!o.visitas||!o.visitas.length){
-    el.innerHTML='<div class="empty-state" style="border:1px dashed var(--border2);border-radius:12px;padding:48px"><p>Nenhuma anotação ainda. Clique em "Nova anotação" para rabiscar sobre o projeto.</p></div>';
-    return;
-  }
-  el.innerHTML=o.visitas.map((v,i)=>`
-    <div class="card" style="margin-bottom:12px">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)">
-        <div>
-          <div style="font-size:14px;font-weight:500">${v.nome}</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:2px">${v.data} · Salvo pelo admin</div>
-        </div>
+function renderDetVisitas(){
+  const vis=visitas.filter(v=>v.obraId.toString()===obraDetalheId.toString());
+  const el=document.getElementById('det-visitas');
+  if(!vis.length){el.innerHTML='';return;}
+  el.innerHTML='<div style="font-size:14px;font-weight:500;margin-bottom:12px">Anotações salvas ('+vis.length+')</div>'+
+    vis.map((v,i)=>`<div class="card" style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border)">
+        <div><div style="font-size:14px;font-weight:500">${v.nome}</div><div style="font-size:11px;color:var(--text3)">${v.data}</div></div>
         <div style="display:flex;gap:8px">
-          <button class="btn-secondary" onclick="verVisita(${obraDetalheId},${i})">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Ver anotação
-          </button>
-          <button class="icon-btn" onclick="excluirVisita(${obraDetalheId},${i})" title="Excluir">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
-          </button>
+          <button class="btn-secondary" onclick="window.open('${v.imagem}')">Ver</button>
+          <button class="icon-btn" onclick="excluirVisita('${v.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
         </div>
       </div>
-      <div style="padding:0">
-        <img src="${v.imagem}" style="width:100%;max-height:300px;object-fit:contain;background:#F0EDE6;display:block" alt="${v.nome}">
-      </div>
+      <img src="${v.imagem}" style="width:100%;max-height:280px;object-fit:contain;background:var(--surface2);display:block">
     </div>`).join('');
 }
 
-function excluirVisita(obraId,idx){
+async function excluirVisita(id){
   if(!confirm('Excluir esta anotação?'))return;
-  const o=obras.find(x=>x.id===obraId);
-  o.visitas.splice(idx,1);
-  renderVisitas();updateDashboard();showToast('Anotação removida.');
+  await api({action:'deleteVisita',id});
+  visitas=visitas.filter(v=>v.id.toString()!==id.toString());
+  renderDetVisitas();updateDashboard();showToast('Anotação removida.');
 }
 
-function verVisita(obraId,idx){
-  const o=obras.find(x=>x.id===obraId);
-  const v=o.visitas[idx];
-  const w=window.open('','_blank');
-  w.document.write(`<html><head><title>${v.nome}</title><style>body{margin:0;background:#2C2C2A;display:flex;align-items:center;justify-content:center;min-height:100vh}img{max-width:100%;max-height:100vh;object-fit:contain}</style></head><body><img src="${v.imagem}" alt="${v.nome}"></body></html>`);
-}
-
-// ── CONTROLE DE ACESSO ────────────────────────────────────
+// ── ACESSOS ───────────────────────────────────────────
 function renderAcessos(){
   const el=document.getElementById('acessos-list');
-  el.innerHTML=profissionais.length?profissionais.map(p=>`
-    <div style="display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border)">
-      <div class="avatar-cell" style="${avatarStyle(p.tipo)}">${initials(p.nome)}</div>
-      <div style="flex:1"><div class="name-cell">${p.nome}</div><span class="badge ${badgeClass(p.tipo)}" style="margin-top:3px">${p.tipo}</span></div>
-      <span style="font-size:12px;color:var(--text3);margin-right:12px">${p.obras.size} obra${p.obras.size!==1?'s':''}</span>
-      <button class="btn-secondary" onclick="abrirAcesso(${p.id})">Gerenciar</button>
-    </div>`).join(''):'<div class="empty-state"><p>Cadastre profissionais e obras primeiro.</p></div>';
+  el.innerHTML=profissionais.length?profissionais.map(p=>{
+    const n=acessos.filter(a=>a.profId.toString()===p.id.toString()).length;
+    return`<div style="display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border)">
+      <div class="avatar-cell" style="${avStyle(p.tipo)}">${initials(p.nome)}</div>
+      <div style="flex:1"><div class="name-cell">${p.nome}</div><span class="badge ${badgeClass(p.tipo)}">${p.tipo}</span></div>
+      <span style="font-size:12px;color:var(--text3);margin-right:12px">${n} obra${n!==1?'s':''}</span>
+      <button class="btn-secondary" onclick="abrirAcesso('${p.id}')">Gerenciar</button>
+    </div>`;}).join('')
+    :'<div class="empty-state"><p>Cadastre profissionais primeiro.</p></div>';
 }
-function abrirAcesso(id){
-  const p=profissionais.find(x=>x.id===id);
-  acessoEditandoId=id;acessoTemp=new Set(p.obras);
-  document.getElementById('acesso-modal-title').textContent='Acesso — '+p.nome;
+
+function abrirAcesso(profId){
+  const p=profissionais.find(x=>x.id.toString()===profId.toString());
+  acessoEditId=profId;
+  acessoTemp=new Set(acessos.filter(a=>a.profId.toString()===profId.toString()).map(a=>a.obraId.toString()));
+  document.getElementById('acesso-title').textContent='Acesso — '+p.nome;
   document.getElementById('acesso-search').value='';
   document.getElementById('acesso-results').classList.remove('open');
-  document.getElementById('acesso-results').innerHTML='';
   renderAcessoGranted();openModal('modal-acesso');
 }
 function filtrarObrasAcesso(){
   const q=document.getElementById('acesso-search').value.trim().toLowerCase();
   const res=document.getElementById('acesso-results');
   if(!q){res.classList.remove('open');res.innerHTML='';return;}
-  const matches=obras.filter(o=>o.nome.toLowerCase().includes(q)&&!acessoTemp.has(o.id));
+  const matches=obras.filter(o=>o.nome.toLowerCase().includes(q)&&!acessoTemp.has(o.id.toString()));
   res.classList.add('open');
-  res.innerHTML=matches.length?matches.map(o=>`<div class="obra-result-item" onclick="addAcessoObra(${o.id})"><span style="font-size:13px;font-weight:500">${o.nome}</span><span style="font-size:11px;color:var(--blue);font-weight:500">+ Dar acesso</span></div>`).join(''):'<div style="padding:12px 14px;font-size:13px;color:var(--text3)">Nenhuma obra encontrada.</div>';
+  res.innerHTML=matches.length?matches.map(o=>`<div class="obra-result-item" onclick="addAcessoObra('${o.id}')"><span style="font-size:13px;font-weight:500">${o.nome}</span><span style="font-size:11px;color:var(--blue);font-weight:500">+ Dar acesso</span></div>`).join(''):'<div style="padding:12px 14px;font-size:13px;color:var(--text3)">Nenhuma encontrada.</div>';
 }
-function addAcessoObra(id){acessoTemp.add(id);document.getElementById('acesso-search').value='';document.getElementById('acesso-results').classList.remove('open');document.getElementById('acesso-results').innerHTML='';renderAcessoGranted();}
+function addAcessoObra(id){acessoTemp.add(id.toString());document.getElementById('acesso-search').value='';document.getElementById('acesso-results').classList.remove('open');renderAcessoGranted();}
 function renderAcessoGranted(){
-  const el=document.getElementById('acesso-granted-list');
-  el.innerHTML=[...acessoTemp].map(id=>{const o=obras.find(x=>x.id===id);return o?`<div class="obra-granted-row"><span class="obra-granted-name">${o.nome}</span><button class="obra-remove-btn" onclick="removeAcessoObra(${id})">×</button></div>`:''}).join('')||'<div style="font-size:12px;color:var(--text3);text-align:center;padding:12px">Nenhuma obra selecionada.</div>';
+  const el=document.getElementById('acesso-granted');
+  el.innerHTML=[...acessoTemp].map(id=>{const o=obras.find(x=>x.id.toString()===id);return o?`<div class="obra-granted-row"><span class="obra-granted-name">${o.nome}</span><button class="obra-remove-btn" onclick="acessoTemp.delete('${id}');renderAcessoGranted()">×</button></div>`:''}).join('')||'<div style="font-size:12px;color:var(--text3);padding:8px">Nenhuma selecionada.</div>';
 }
-function removeAcessoObra(id){acessoTemp.delete(id);renderAcessoGranted();}
-function salvarAcesso(){
-  const p=profissionais.find(x=>x.id===acessoEditandoId);
-  p.obras=new Set(acessoTemp);
-  closeModal('modal-acesso');renderProfs();renderAcessos();updateDashboard();showToast('Acesso de '+p.nome+' atualizado!');
-}
-
-// ── VISÃO PROFISSIONAL ────────────────────────────────────
-function renderMeusProjetos(){
-  const p=currentUser;
-  document.getElementById('prof-welcome-name').textContent=p.nome||p.name;
-  const badge=document.getElementById('prof-welcome-badge');
-  badge.textContent=p.tipo||'Admin';badge.className='badge '+(badgeClass(p.tipo||'')||'badge-cli');
-  document.getElementById('prof-welcome').style.display='flex';
-  const lista=document.getElementById('prof-projetos-list');
-  const minhasObras=[...p.obras].map(id=>obras.find(o=>o.id===id)).filter(Boolean);
-  lista.innerHTML=minhasObras.length?'<div class="project-list">'+minhasObras.map(o=>`
-    <div class="project-card">
-      <div class="project-card-header">
-        <div><div class="project-title">${o.nome}</div><div class="project-meta"><span>Pasta vinculada ao Google Drive</span></div></div>
-        <span class="badge badge-progress">Ativo</span>
-      </div>
-      <div class="project-footer">
-        <div style="font-size:12px;color:var(--text3)">Documentos disponíveis quando a integração Drive estiver ativa.</div>
-        ${o.drive?`<a href="${o.drive}" target="_blank" class="btn-secondary" style="text-decoration:none;font-size:12px">Abrir no Drive ↗</a>`:''}
-      </div>
-    </div>`).join('')+'</div>':'<div class="empty-state"><p>Nenhum projeto disponível ainda.</p></div>';
+async function salvarAcesso(){
+  const btn=document.getElementById('btn-save-acesso');
+  btn.disabled=true;btn.textContent='Salvando...';
+  const obraIds=[...acessoTemp].join(',');
+  const r=await api({action:'setAcesso',profId:acessoEditId,obraIds});
+  btn.disabled=false;btn.textContent='Salvar';
+  if(r.error){showToast('Erro: '+r.error);return;}
+  acessos=acessos.filter(a=>a.profId.toString()!==acessoEditId.toString());
+  [...acessoTemp].forEach(obraId=>acessos.push({profId:acessoEditId,obraId}));
+  closeModal('modal-acesso');renderProfs();renderAcessos();updateDashboard();
+  const p=profissionais.find(x=>x.id.toString()===acessoEditId.toString());
+  showToast('Acesso de '+(p?.nome||'profissional')+' atualizado!');
 }
 
-// ── ANOTADOR ──────────────────────────────────────────────
-let annCanvas, annCtx, annTool='pen', annColor='#E24B4A', annSize=2;
-let drawing=false, startX=0, startY=0;
-let strokes=[]; // cada stroke = {type, color, size, data}
-let currentStrokeData=[];
-let snapshotBeforeShape=null;
+// ── ANOTADOR ──────────────────────────────────────────
+let annCanvas,annCtx,annTool='pen',annColor='#E24B4A',annSize=2;
+let drawing=false,sx=0,sy=0,strokes=[],currentPoints=[],snapBefore=null;
 
 function abrirAnnotator(){
-  const o=obras.find(x=>x.id===obraDetalheId);
-  if(!o){showToast('Selecione uma obra primeiro.');return;}
+  const o=obras.find(x=>x.id.toString()===obraDetalheId.toString());
   document.getElementById('ann-title').textContent='Anotando: '+o.nome;
-  const overlay=document.getElementById('annotator-overlay');
-  overlay.classList.add('open');
-  const frame=document.getElementById('ann-pdf-frame');
-  if(o.drive){
-    const fileId=o.drive.match(/[-\w]{25,}/);
-    frame.src=fileId?'https://drive.google.com/file/d/'+fileId[0]+'/preview':o.drive;
-  } else {
-    frame.src='about:blank';
-  }
+  document.getElementById('ann-overlay').classList.add('open');
+  const frame=document.getElementById('ann-frame');
+  if(o.driveId){const id=o.driveId;frame.src='https://drive.google.com/embeddedfolderview?id='+id+'#list';}
+  else frame.src='about:blank';
   setTimeout(initCanvas,300);
 }
-
-function fecharAnnotator(){
-  document.getElementById('annotator-overlay').classList.remove('open');
-  document.getElementById('ann-pdf-frame').src='about:blank';
-  strokes=[];currentStrokeData=[];
-  if(annCtx)annCtx.clearRect(0,0,annCanvas.width,annCanvas.height);
-}
-
+function fecharAnn(){document.getElementById('ann-overlay').classList.remove('open');document.getElementById('ann-frame').src='about:blank';strokes=[];if(annCtx)annCtx.clearRect(0,0,annCanvas.width,annCanvas.height);}
 function initCanvas(){
-  annCanvas=document.getElementById('ann-canvas');
-  annCtx=annCanvas.getContext('2d');
-  const body=document.querySelector('.ann-body');
-  annCanvas.width=body.clientWidth;
-  annCanvas.height=body.clientHeight;
+  annCanvas=document.getElementById('ann-canvas');annCtx=annCanvas.getContext('2d');
+  const b=document.querySelector('.ann-body');annCanvas.width=b.clientWidth;annCanvas.height=b.clientHeight;
   annCtx.lineCap='round';annCtx.lineJoin='round';
-
-  annCanvas.onmousedown=startDraw;
-  annCanvas.onmousemove=draw;
-  annCanvas.onmouseup=endDraw;
-  annCanvas.onmouseleave=endDraw;
-  annCanvas.onclick=handleClick;
+  annCanvas.onmousedown=e=>{if(annTool==='text')return;drawing=true;const r=annCanvas.getBoundingClientRect();sx=e.clientX-r.left;sy=e.clientY-r.top;if(annTool==='pen'||annTool==='eraser'){currentPoints=[[sx,sy]];annCtx.beginPath();annCtx.moveTo(sx,sy);}else snapBefore=annCtx.getImageData(0,0,annCanvas.width,annCanvas.height);};
+  annCanvas.onmousemove=e=>{if(!drawing)return;const r=annCanvas.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;annCtx.strokeStyle=annTool==='eraser'?'rgba(0,0,0,1)':annColor;annCtx.lineWidth=annTool==='eraser'?annSize*4:annSize;if(annTool==='pen'){annCtx.lineTo(x,y);annCtx.stroke();currentPoints.push([x,y]);}else if(annTool==='eraser'){annCtx.globalCompositeOperation='destination-out';annCtx.lineTo(x,y);annCtx.stroke();annCtx.globalCompositeOperation='source-over';currentPoints.push([x,y]);}else if(snapBefore){annCtx.putImageData(snapBefore,0,0);annCtx.beginPath();annCtx.strokeStyle=annColor;annCtx.lineWidth=annSize;if(annTool==='rect')annCtx.strokeRect(sx,sy,x-sx,y-sy);else if(annTool==='circle'){const rx=(x-sx)/2,ry=(y-sy)/2;annCtx.ellipse(sx+rx,sy+ry,Math.abs(rx),Math.abs(ry),0,0,2*Math.PI);annCtx.stroke();}else if(annTool==='arrow')drawArrow(annCtx,sx,sy,x,y,annColor,annSize);}};
+  annCanvas.onmouseup=e=>{if(!drawing)return;drawing=false;const r=annCanvas.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;if(['rect','circle','arrow'].includes(annTool))strokes.push({type:annTool,color:annColor,size:annSize,x:sx,y:sy,x2:x,y2:y});else strokes.push({type:annTool,color:annColor,size:annSize,data:[...currentPoints]});currentPoints=[];snapBefore=null;};
+  annCanvas.onmouseleave=e=>annCanvas.onmouseup(e);
+  annCanvas.onclick=e=>{if(annTool!=='text')return;const r=annCanvas.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;const inp=document.getElementById('ann-text-inp');inp.style.display='block';inp.style.left=x+'px';inp.style.top=(y-16)+'px';inp.style.color=annColor;inp.style.fontSize=(annSize*4+10)+'px';inp.value='';inp.focus();inp.onkeydown=ev=>{if(ev.key==='Enter'){const t=inp.value.trim();if(t){annCtx.font=`${annSize*4+10}px Inter,sans-serif`;annCtx.fillStyle=annColor;annCtx.fillText(t,x,y);strokes.push({type:'text',color:annColor,size:annSize,x,y,text:t});}inp.style.display='none';}if(ev.key==='Escape')inp.style.display='none';};};
 }
-
-function setTool(t){
-  annTool=t;
-  document.querySelectorAll('.tool-btn[id^="tool-"]').forEach(b=>b.classList.remove('active'));
-  const el=document.getElementById('tool-'+t);
-  if(el)el.classList.add('active');
-  annCanvas.style.cursor=t==='text'?'text':(t==='eraser'?'cell':'crosshair');
-}
+function setTool(t){annTool=t;document.querySelectorAll('.tool-btn[id^="tool-"]').forEach(b=>b.classList.remove('active'));const el=document.getElementById('tool-'+t);if(el)el.classList.add('active');annCanvas.style.cursor=t==='text'?'text':t==='eraser'?'cell':'crosshair';}
 function setColor(c,el){annColor=c;document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('active'));el.classList.add('active');}
 function setSize(s,el){annSize=s;document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function drawArrow(ctx,x1,y1,x2,y2,color,size){const a=Math.atan2(y2-y1,x2-x1),l=12+size*2;ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=size;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-l*Math.cos(a-Math.PI/6),y2-l*Math.sin(a-Math.PI/6));ctx.lineTo(x2-l*Math.cos(a+Math.PI/6),y2-l*Math.sin(a+Math.PI/6));ctx.closePath();ctx.fill();}
+function undoStroke(){if(!strokes.length)return;strokes.pop();redrawAnn();}
+function clearAnn(){if(!confirm('Limpar tudo?'))return;strokes=[];annCtx.clearRect(0,0,annCanvas.width,annCanvas.height);}
+function redrawAnn(){annCtx.clearRect(0,0,annCanvas.width,annCanvas.height);for(const s of strokes){annCtx.strokeStyle=s.color;annCtx.lineWidth=s.size;annCtx.lineCap='round';annCtx.lineJoin='round';if(s.type==='pen'){annCtx.globalCompositeOperation='source-over';annCtx.beginPath();if(s.data.length){annCtx.moveTo(s.data[0][0],s.data[0][1]);s.data.slice(1).forEach(([x,y])=>annCtx.lineTo(x,y));}annCtx.stroke();}else if(s.type==='eraser'){annCtx.globalCompositeOperation='destination-out';annCtx.lineWidth=s.size*4;annCtx.beginPath();if(s.data.length){annCtx.moveTo(s.data[0][0],s.data[0][1]);s.data.slice(1).forEach(([x,y])=>annCtx.lineTo(x,y));}annCtx.stroke();annCtx.globalCompositeOperation='source-over';}else if(s.type==='rect'){annCtx.beginPath();annCtx.strokeStyle=s.color;annCtx.strokeRect(s.x,s.y,s.x2-s.x,s.y2-s.y);}else if(s.type==='circle'){const rx=(s.x2-s.x)/2,ry=(s.y2-s.y)/2;annCtx.beginPath();annCtx.ellipse(s.x+rx,s.y+ry,Math.abs(rx),Math.abs(ry),0,0,2*Math.PI);annCtx.stroke();}else if(s.type==='arrow'){drawArrow(annCtx,s.x,s.y,s.x2,s.y2,s.color,s.size);}else if(s.type==='text'){annCtx.font=`${s.size*4+10}px Inter,sans-serif`;annCtx.fillStyle=s.color;annCtx.fillText(s.text,s.x,s.y);}}}
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='z'&&document.getElementById('ann-overlay').classList.contains('open')){e.preventDefault();undoStroke();}});
 
-function startDraw(e){
-  if(annTool==='text')return;
-  drawing=true;
-  const r=annCanvas.getBoundingClientRect();
-  startX=e.clientX-r.left;startY=e.clientY-r.top;
-  if(annTool==='pen'||annTool==='eraser'){
-    currentStrokeData=[[startX,startY]];
-    annCtx.beginPath();annCtx.moveTo(startX,startY);
-  }
-  if(['rect','circle','arrow'].includes(annTool)){
-    snapshotBeforeShape=annCtx.getImageData(0,0,annCanvas.width,annCanvas.height);
-  }
-}
-
-function draw(e){
-  if(!drawing)return;
-  const r=annCanvas.getBoundingClientRect();
-  const x=e.clientX-r.left,y=e.clientY-r.top;
-  annCtx.strokeStyle=annTool==='eraser'?'rgba(0,0,0,1)':annColor;
-  annCtx.lineWidth=annTool==='eraser'?annSize*4:annSize;
-  if(annTool==='pen'){
-    annCtx.lineTo(x,y);annCtx.stroke();
-    currentStrokeData.push([x,y]);
-  } else if(annTool==='eraser'){
-    annCtx.globalCompositeOperation='destination-out';
-    annCtx.lineTo(x,y);annCtx.stroke();
-    annCtx.globalCompositeOperation='source-over';
-    currentStrokeData.push([x,y]);
-  } else if(['rect','circle','arrow'].includes(annTool)&&snapshotBeforeShape){
-    annCtx.putImageData(snapshotBeforeShape,0,0);
-    annCtx.beginPath();annCtx.strokeStyle=annColor;annCtx.lineWidth=annSize;
-    if(annTool==='rect'){annCtx.strokeRect(startX,startY,x-startX,y-startY);}
-    else if(annTool==='circle'){
-      const rx=(x-startX)/2,ry=(y-startY)/2;
-      annCtx.ellipse(startX+rx,startY+ry,Math.abs(rx),Math.abs(ry),0,0,2*Math.PI);annCtx.stroke();
-    } else if(annTool==='arrow'){
-      drawArrow(annCtx,startX,startY,x,y,annColor,annSize);
-    }
-  }
-}
-
-function endDraw(e){
-  if(!drawing)return;drawing=false;
-  const r=annCanvas.getBoundingClientRect();
-  const x=e.clientX-r.left,y=e.clientY-r.top;
-  if(['rect','circle','arrow'].includes(annTool)){
-    strokes.push({type:annTool,color:annColor,size:annSize,x:startX,y:startY,x2:x,y2:y});
-  } else if(annTool==='pen'||annTool==='eraser'){
-    strokes.push({type:annTool,color:annColor,size:annSize,data:[...currentStrokeData]});
-    currentStrokeData=[];
-  }
-  snapshotBeforeShape=null;
-}
-
-function handleClick(e){
-  if(annTool!=='text')return;
-  const r=annCanvas.getBoundingClientRect();
-  const x=e.clientX-r.left,y=e.clientY-r.top;
-  const inp=document.getElementById('ann-text-input');
-  inp.style.display='block';
-  inp.style.left=(e.clientX-r.left+annCanvas.getBoundingClientRect().left-r.left)+'px';
-  inp.style.top=(e.clientY-r.top+annCanvas.getBoundingClientRect().top-r.top-16)+'px';
-  inp.style.left=x+'px';inp.style.top=(y-16)+'px';
-  inp.style.color=annColor;inp.style.fontSize=(annSize*4+10)+'px';
-  inp.value='';inp.focus();
-  inp.onkeydown=function(ev){
-    if(ev.key==='Enter'){
-      const txt=inp.value.trim();
-      if(txt){
-        annCtx.font=`${annSize*4+10}px Inter,sans-serif`;
-        annCtx.fillStyle=annColor;annCtx.fillText(txt,x,y);
-        strokes.push({type:'text',color:annColor,size:annSize,x,y,text:txt});
-      }
-      inp.style.display='none';inp.value='';
-    }
-    if(ev.key==='Escape'){inp.style.display='none';inp.value='';}
-  };
-}
-
-function drawArrow(ctx,x1,y1,x2,y2,color,size){
-  const angle=Math.atan2(y2-y1,x2-x1);
-  const len=12+size*2;
-  ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=size;
-  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(x2,y2);
-  ctx.lineTo(x2-len*Math.cos(angle-Math.PI/6),y2-len*Math.sin(angle-Math.PI/6));
-  ctx.lineTo(x2-len*Math.cos(angle+Math.PI/6),y2-len*Math.sin(angle+Math.PI/6));
-  ctx.closePath();ctx.fill();
-}
-
-function undoStroke(){
-  if(!strokes.length)return;
-  strokes.pop();redrawCanvas();
-}
-
-function clearCanvas(){
-  if(!confirm('Limpar todas as anotações?'))return;
-  strokes=[];annCtx.clearRect(0,0,annCanvas.width,annCanvas.height);
-}
-
-function redrawCanvas(){
-  annCtx.clearRect(0,0,annCanvas.width,annCanvas.height);
-  for(const s of strokes){
-    annCtx.strokeStyle=s.color;annCtx.lineWidth=s.size;annCtx.lineCap='round';annCtx.lineJoin='round';
-    if(s.type==='pen'){
-      annCtx.globalCompositeOperation='source-over';
-      annCtx.beginPath();if(s.data.length){annCtx.moveTo(s.data[0][0],s.data[0][1]);s.data.slice(1).forEach(([x,y])=>annCtx.lineTo(x,y));}annCtx.stroke();
-    } else if(s.type==='eraser'){
-      annCtx.globalCompositeOperation='destination-out';annCtx.lineWidth=s.size*4;
-      annCtx.beginPath();if(s.data.length){annCtx.moveTo(s.data[0][0],s.data[0][1]);s.data.slice(1).forEach(([x,y])=>annCtx.lineTo(x,y));}annCtx.stroke();
-      annCtx.globalCompositeOperation='source-over';
-    } else if(s.type==='rect'){
-      annCtx.beginPath();annCtx.strokeRect(s.x,s.y,s.x2-s.x,s.y2-s.y);
-    } else if(s.type==='circle'){
-      const rx=(s.x2-s.x)/2,ry=(s.y2-s.y)/2;
-      annCtx.beginPath();annCtx.ellipse(s.x+rx,s.y+ry,Math.abs(rx),Math.abs(ry),0,0,2*Math.PI);annCtx.stroke();
-    } else if(s.type==='arrow'){
-      drawArrow(annCtx,s.x,s.y,s.x2,s.y2,s.color,s.size);
-    } else if(s.type==='text'){
-      annCtx.font=`${s.size*4+10}px Inter,sans-serif`;annCtx.fillStyle=s.color;annCtx.fillText(s.text,s.x,s.y);
-    }
-  }
-}
-
-document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='z'&&document.getElementById('annotator-overlay').classList.contains('open')){e.preventDefault();undoStroke();}});
-
-// ── SALVAR VISITA ─────────────────────────────────────────
 function pedirNomeVisita(){
-  const o=obras.find(x=>x.id===obraDetalheId);
-  const n=(o.visitas||[]).length+1;
-  document.getElementById('visita-nome-input').value='Visita em obra '+n;
-  openModal('modal-salvar-visita');
+  const o=obras.find(x=>x.id.toString()===obraDetalheId.toString());
+  const n=visitas.filter(v=>v.obraId.toString()===obraDetalheId.toString()).length+1;
+  document.getElementById('visita-nome').value='Visita em obra '+n;
+  openModal('modal-visita');
 }
-
-function confirmarSalvarVisita(){
-  const nome=document.getElementById('visita-nome-input').value.trim();
-  if(!nome){showToast('Informe um nome para a visita.');return;}
-  const o=obras.find(x=>x.id===obraDetalheId);
-  if(!o.visitas)o.visitas=[];
+async function confirmarVisita(){
+  const nome=document.getElementById('visita-nome').value.trim();
+  if(!nome){showToast('Informe um nome.');return;}
+  const btn=document.getElementById('btn-salvar-visita');
+  btn.disabled=true;btn.textContent='Salvando...';
   const imagem=annCanvas.toDataURL('image/png');
   const data=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
-  o.visitas.push({nome,data,imagem});
-  closeModal('modal-salvar-visita');
-  fecharAnnotator();
-  renderVisitas();updateDashboard();
-  showToast('"'+nome+'" salva com sucesso!');
+  const r=await api({action:'addVisita',obraId:obraDetalheId,nome,data,imagem});
+  btn.disabled=false;btn.textContent='Salvar';
+  if(r.error){showToast('Erro: '+r.error);return;}
+  visitas.push({id:r.id,obraId:obraDetalheId,nome,data,imagem});
+  closeModal('modal-visita');fecharAnn();
+  renderDetVisitas();updateDashboard();
+  showToast('"'+nome+'" salva!');
 }
 
-// ── MODAIS ────────────────────────────────────────────────
+const PAGE_TITLES={dashboard:'Dashboard',profissionais:'Profissionais',obras:'Obras',acessos:'Controle de acesso',drive:'Drive & Sincronizar',notificacoes:'Notificações','meus-projetos':'Meus Projetos','obra-detalhe':'Detalhes da obra'};
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id)?.classList.add('active');
+  document.getElementById('topbar-title').textContent=PAGE_TITLES[id]||id;
+  const btn=document.querySelector(`.nav-item[onclick*="'${id}'"]`);if(btn)btn.classList.add('active');
+}
+function initials(n){return(n||'').split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();}
+function badgeClass(t){return{Arquiteto:'badge-arq',Eletricista:'badge-ele',Gesseiro:'badge-ges',Engenheiro:'badge-eng',Cliente:'badge-cli'}[t]||'badge-cli';}
+function avStyle(t){return{Arquiteto:'background:#E8F1FB;color:#0C447C',Eletricista:'background:#E1F5EE;color:#085041',Gesseiro:'background:#FEF3E2;color:#633806',Engenheiro:'background:#EEEDFE;color:#3C3489',Cliente:'background:#F0EDE6;color:#6B6860'}[t]||'';}
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
-
-// ── RENDER OBRAS COM ARQUIVOS DRIVE ──────────────────
-async function renderObrasComArquivos(minhasObras) {
-  const container = document.getElementById('proj-cards-list');
-  if (!container) return;
-  const cards = [];
-  for (const o of minhasObras) {
-    let arquivos = [];
-    if (o.driveId) arquivos = await buscarArquivosObra(o.driveId);
-    const visitas = o.visitas || [];
-    cards.push(`
-      <div class="project-card">
-        <div class="project-card-header">
-          <div>
-            <div class="project-title">${o.nome}</div>
-            <div class="project-meta">
-              <span>${arquivos.length} documento${arquivos.length!==1?'s':''}</span>
-              ${visitas.length ? '<span>·</span><span>'+visitas.length+' visita'+( visitas.length!==1?'s':'')+'</span>' : ''}
-            </div>
-          </div>
-          <span class="badge badge-progress">Ativo</span>
-        </div>
-        ${arquivos.length ? `
-        <div style="padding:0 20px 14px">
-          ${arquivos.map(f => `
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-top:8px">
-            <div style="display:flex;align-items:center;gap:10px">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              <div>
-                <div style="font-size:13px;font-weight:500">${f.name}</div>
-                <div style="font-size:11px;color:var(--text3)">${new Date(f.modified).toLocaleDateString('pt-BR')}</div>
-              </div>
-            </div>
-            <div style="display:flex;gap:6px">
-              <a href="${f.preview}" target="_blank" class="btn-secondary" style="text-decoration:none;font-size:12px">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Ver
-              </a>
-              <a href="${f.download}" target="_blank" class="btn-primary" style="text-decoration:none;font-size:12px">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Baixar
-              </a>
-            </div>
-          </div>`).join('')}
-        </div>` : `
-        <div class="project-footer">
-          <div style="font-size:12px;color:var(--text3)">Nenhum documento nesta pasta ainda.</div>
-          ${o.drive ? `<a href="${o.drive}" target="_blank" class="btn-secondary" style="text-decoration:none;font-size:12px">Abrir no Drive ↗</a>` : ''}
-        </div>`}
-        ${visitas.length ? `
-        <div style="padding:0 20px 14px;border-top:1px solid var(--border);margin-top:4px">
-          <div style="font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;padding-top:12px;margin-bottom:8px">Visitas em obra</div>
-          ${visitas.map((v,i) => `
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--amber-bg);border-radius:6px;margin-bottom:6px">
-            <div>
-              <div style="font-size:13px;font-weight:500;color:var(--amber)">${v.nome}</div>
-              <div style="font-size:11px;color:var(--amber);opacity:.7">${v.data}</div>
-            </div>
-            <img src="${v.imagem}" onclick="window.open('${v.imagem}')" style="height:40px;border-radius:4px;cursor:pointer" alt="${v.nome}">
-          </div>`).join('')}
-        </div>` : ''}
-      </div>`);
-  }
-  if (container) container.innerHTML = cards.join('');
-}
-
-// ── DRIVE INTEGRATION ────────────────────────────────
-async function sincronizarDrive() {
-  const status = document.getElementById('drive-sync-status');
-  const preview = document.getElementById('drive-preview');
-  status.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><polyline points="23 4 23 10 17 10"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10"/></svg> Sincronizando...';
-  try {
-    const url = DRIVE_SCRIPT + '?folder=' + DRIVE_ROOT;
-    const resp = await fetch(url);
-    const items = await resp.json();
-    if (items.error) throw new Error(items.error);
-    const subfolders = items.filter(i => i.mimeType === 'application/vnd.google-apps.folder');
-    let adicionadas = 0;
-    for (const f of subfolders) {
-      if (!obras.find(o => o.driveId === f.id)) {
-        obras.push({id: nextObraId++, nome: f.name, drive: 'https://drive.google.com/drive/folders/'+f.id, driveId: f.id, visitas: []});
-        adicionadas++;
-      }
-    }
-    status.innerHTML = '<span style="color:var(--green)">✓ ' + subfolders.length + ' obras encontradas' + (adicionadas ? ', ' + adicionadas + ' novas adicionadas' : '') + '</span>';
-    preview.innerHTML = subfolders.length
-      ? '<div style="margin-top:8px"><div style="font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Obras encontradas no Drive</div>'
-        + subfolders.map(f => '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:6px">'
-          + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>'
-          + '<span style="font-size:13px;font-weight:500">' + f.name + '</span>'
-          + '<span style="font-size:11px;color:var(--text3);margin-left:auto">' + f.id + '</span>'
-          + '</div>').join('')
-        + '</div>'
-      : '<div style="font-size:13px;color:var(--text3);margin-top:8px">Nenhuma subpasta encontrada. Crie subpastas na pasta PROJETOS LOJA com o nome de cada cliente.</div>';
-    renderObras(); renderAcessos(); updateDashboard();
-    showToast(adicionadas + ' obra' + (adicionadas!==1?'s':'') + ' adicionada' + (adicionadas!==1?'s':'') + ' do Drive!');
-  } catch(err) {
-    status.innerHTML = '<span style="color:var(--red)">Erro: ' + err.message + '</span>';
-  }
-}
-
-async function buscarArquivosObra(driveId) {
-  try {
-    const url = DRIVE_SCRIPT + '?folder=' + driveId;
-    const resp = await fetch(url);
-    const items = await resp.json();
-    if (items.error) throw new Error(items.error);
-    return items.filter(i => i.mimeType !== 'application/vnd.google-apps.folder');
-  } catch(e) {
-    return [];
-  }
-}
-
-// ── TOAST ─────────────────────────────────────────────────
 let toastTimer;
-function showToast(msg){
-  const t=document.getElementById('toast');
-  document.getElementById('toast-msg').textContent=msg;
-  t.classList.add('show');clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove('show'),3000);
-}
+function showToast(msg){const t=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000);}
 </script>
 </body>
 </html>
