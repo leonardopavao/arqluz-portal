@@ -353,7 +353,7 @@ tbody tr:last-child td{border-bottom:none}
       <div class="login-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
       <div class="login-brand">Arq Luz</div>
       <div class="login-sub">Portal de Projetos</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:6px;letter-spacing:1px">v 1.03</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:6px;letter-spacing:1px">v 1.04</div>
     </div>
     <label class="login-label" for="lu">Usuário</label>
     <input class="login-input" id="lu" type="text" placeholder="seu usuário" autocomplete="off">
@@ -1054,9 +1054,12 @@ function renderObras() { renderKanban(); }
 
 function renderKanban() {
   const cols = ['geovana','larissa','leonardo','sem-consultor'];
-  // Obras sem coluna definida vão para sem-consultor
+  // Inicializa coluna a partir do campo consultor salvo no Sheets
   obras.forEach(o => {
-    if (!obraColuna[o.id]) obraColuna[o.id] = 'sem-consultor';
+    // Se não foi arrastado nesta sessão, usa o valor salvo no Sheets
+    if (!obraColuna[o.id]) {
+      obraColuna[o.id] = o.consultor || 'sem-consultor';
+    }
   });
   // Limpar colunas
   cols.forEach(col => {
@@ -1112,15 +1115,33 @@ function onDragOver(e) {
   e.currentTarget.classList.add('drag-over');
 }
 
-function onDrop(e, col) {
+async function onDrop(e, col) {
   e.preventDefault();
   e.currentTarget.classList.remove('drag-over');
-  if (draggedObraId) {
-    obraColuna[draggedObraId] = col;
-    draggedObraId = null;
-    renderKanban();
-    const o = obras.find(x=>x.id.toString()===obraColuna[Object.keys(obraColuna).find(k=>obraColuna[k]===col&&obras.find(x=>x.id.toString()===k))]);
-    showToast('Obra movida para ' + col.charAt(0).toUpperCase() + col.slice(1).replace('-',' ') + '!');
+  if (!draggedObraId) return;
+
+  const obraId = draggedObraId;
+  draggedObraId = null;
+
+  // Atualiza memória e re-renderiza imediatamente (UX rápido)
+  obraColuna[obraId] = col;
+
+  // Atualiza também o array local de obras para manter sincronia
+  const obra = obras.find(o => o.id.toString() === obraId.toString());
+  if (obra) obra.consultor = col;
+
+  renderKanban();
+
+  const nomeCol = col.charAt(0).toUpperCase() + col.slice(1).replace('-', ' ');
+  showToast('Movendo para ' + nomeCol + '...');
+
+  // Salva no Google Sheets via Apps Script
+  try {
+    await api({ action: 'updateConsultor', id: obraId, consultor: col });
+    showToast('✓ Salvo em ' + nomeCol + '!');
+  } catch(err) {
+    showToast('⚠️ Erro ao salvar — tente de novo.');
+    console.error('updateConsultor error:', err);
   }
 }
 
