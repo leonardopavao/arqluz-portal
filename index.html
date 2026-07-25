@@ -353,15 +353,9 @@ tbody tr:last-child td{border-bottom:none}
       <div class="login-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
       <div class="login-brand">Arq Luz</div>
       <div class="login-sub">Portal de Projetos</div>
-      <div style="font-size:10px;color:var(--text3);margin-top:6px;letter-spacing:1px">v 1.09</div>
+      <div style="font-size:10px;color:var(--text3);margin-top:6px;letter-spacing:1px">v 1.10</div>
     </div>
-    <label class="login-label" for="ltipo">Tipo de acesso</label>
-    <select class="login-input" id="ltipo" style="margin-bottom:16px;cursor:pointer;">
-      <option value="cliente">Cliente / Profissional</option>
-      <option value="arquiteto">Arquiteto</option>
-      <option value="servico">Serviço</option>
-    </select>
-    <label class="login-label" for="lu">Usuário</label>
+<label class="login-label" for="lu">Usuário</label>
     <input class="login-input" id="lu" type="text" placeholder="seu usuário" autocomplete="off">
     <label class="login-label" for="lp">Senha</label>
     <input class="login-input" id="lp" type="password" placeholder="••••••••">
@@ -393,13 +387,7 @@ tbody tr:last-child td{border-bottom:none}
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Controle de acesso
         </button>
       </div>
-      <div class="sidebar-section">
-        <div class="sidebar-section-label">Pontos</div>
-        <button class="nav-item" onclick="showPage('admin-pontos')">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Pontos Arquitetos
-        </button>
-      </div>
-      <div class="sidebar-section">
+<div class="sidebar-section">
         <div class="sidebar-section-label">Sistema</div>
         <button class="nav-item" onclick="showPage('drive')">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12a10 10 0 11-20 0 10 10 0 0120 0z"/><path d="M12 8v4l3 3"/></svg>Drive & Sincronizar
@@ -414,9 +402,7 @@ tbody tr:last-child td{border-bottom:none}
         <button class="nav-item active" onclick="showPage('meus-projetos')">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Meus Projetos
         </button>
-        <button class="nav-item" id="nav-pontos" style="display:none" onclick="showPage('pontos')">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Meus Pontos
-        </button>
+
       </div>
     </div>
     <div class="sidebar-footer">
@@ -766,11 +752,7 @@ Acesse em: {link}</textarea>
 
 <script>
 // ── CONFIG ────────────────────────────────────────────
-const API = 'https://script.google.com/macros/s/AKfycbyiVsPgA-BzTsh7mQpy8YLi8lg66tPC-0ESlfzq-PgbTJH8sZO7RYr1C3Y90egUP4hG/exec';
-const PONTOS_API = 'https://script.google.com/macros/s/AKfycbxoWCsWI9Qx-mVQPW2uuDOX-HXl4vuX-u_xWlqEplQ84W65aD2UUlfDHDr_FMGzy0X-/exec';
-async function apiPontos(action, ...params) {
-  // O script de pontos usa doPost com {action, params:[...]}
-  const r = await fetch(PONTOS_API, {
+const API = 'https://script.google.com/macros/s/AKfycbwZ64qwiKAP7nvleyMh8ocBjNoPUPuM66-Qdg22lhPbC3ty4N3kkfKAOyJi3odAs6A0/exec';
     method: 'POST',
     body: JSON.stringify({ action, params })
   });
@@ -852,13 +834,6 @@ function launchCliente() {
   document.getElementById('sidebar-role').textContent=currentUser.tipo||'Cliente';
   document.getElementById('today-date').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   document.getElementById('client-nav').style.display='block';
-  // Mostra aba Pontos só para arquitetos
-  const isArq = (currentUser.tipo||'').toLowerCase().includes('arquiteto') ||
-                (document.getElementById('ltipo')?.value === 'arquiteto');
-  if (isArq) {
-    document.getElementById('nav-pontos').style.display='flex';
-    currentUser._isArquiteto = true;
-  }
   showPage('meus-projetos');
   setTimeout(()=>carregarDadosCliente().catch(()=>{}), 300);
 }
@@ -1351,7 +1326,7 @@ async function confirmarVisita(){
   showToast('"'+nome+'" salva!');
 }
 
-const PAGE_TITLES={dashboard:'Dashboard',profissionais:'Profissionais',obras:'Obras',acessos:'Controle de acesso',drive:'Drive & Sincronizar',notificacoes:'Notificações','meus-projetos':'Meus Projetos','obra-detalhe':'Detalhes da obra',pontos:'Meus Pontos','admin-pontos':'Pontos — Arquitetos'};
+const PAGE_TITLES={dashboard:'Dashboard',profissionais:'Profissionais',obras:'Obras',acessos:'Controle de acesso',drive:'Drive & Sincronizar',notificacoes:'Notificações','meus-projetos':'Meus Projetos','obra-detalhe':'Detalhes da obra',pontos:'Meus Pontos'};
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -1480,26 +1455,14 @@ function showToast(msg){const t=document.getElementById('toast');document.getEle
 // ═══════════════════════════════════════════
 // PONTOS — lógica da aba Meus Pontos
 // ═══════════════════════════════════════════
-let _pontosData = null;
-let _lancamentosFiltro = 'todos';
-let _resgatesFiltro = 'todos';
 
-async function carregarPontos() {
   if (!currentUser?._isArquiteto) return;
   const nomeArq = currentUser.nome || '';
   try {
-    const res = await apiPontos('getArquitetoPontos', nomeArq);
-    if (!res || res.error) { mostrarErroPontos('Não foi possível carregar seus pontos.'); return; }
-    _pontosData = res;
-    renderPontos();
   } catch(e) {
-    mostrarErroPontos('Erro de conexão com o servidor de pontos.');
   }
 }
 
-function renderPontos() {
-  if (!_pontosData) return;
-  const { lancamentos = [], resgates = [] } = _pontosData;
 
   const liberados   = lancamentos.filter(l => l.status === 'LIBERADO').reduce((s,l) => s + (Number(l.pontos)||0), 0);
   const aguardando  = lancamentos.filter(l => l.status === 'AGUARDANDO').reduce((s,l) => s + (Number(l.pontos)||0), 0);
@@ -1516,8 +1479,6 @@ function renderPontos() {
 
 function renderLancamentos(lancamentos) {
   const el = document.getElementById('pontos-lancamentos');
-  const itens = _lancamentosFiltro === 'todos' ? lancamentos
-    : lancamentos.filter(l => l.status === _lancamentosFiltro);
 
   if (!itens.length) {
     el.innerHTML = '<div class="empty-state"><p>Nenhum lançamento aqui ainda.</p></div>'; return;
@@ -1534,8 +1495,6 @@ function renderLancamentos(lancamentos) {
 
 function renderResgatesArq(resgates) {
   const el = document.getElementById('pontos-resgates');
-  const itens = _resgatesFiltro === 'todos' ? resgates
-    : resgates.filter(r => r.status === _resgatesFiltro);
 
   if (!itens.length) {
     el.innerHTML = '<div class="empty-state"><p>Nenhum resgate solicitado ainda.</p></div>'; return;
@@ -1550,25 +1509,17 @@ function renderResgatesArq(resgates) {
   '</tbody></table>';
 }
 
-function filtrarLancamentos(filtro, btn) {
-  _lancamentosFiltro = filtro;
   document.querySelectorAll('#page-pontos .filters .filter-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  if (_pontosData) renderLancamentos(_pontosData.lancamentos || []);
 }
 
-function filtrarResgates(filtro, btn) {
-  _resgatesFiltro = filtro;
   if (btn) {
     const parent = btn.closest('.filters');
     parent?.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   }
-  if (_pontosData) renderResgatesArq(_pontosData.resgates || []);
 }
 
-function abrirModalResgate() {
-  const disponivel = _pontosData?.lancamentos?.filter(l=>l.status==='LIBERADO').reduce((s,l)=>s+(Number(l.pontos)||0),0) || 0;
   document.getElementById('resgate-pontos').value = '';
   document.getElementById('resgate-obs').value = '';
   document.getElementById('resgate-senha').value = '';
@@ -1576,338 +1527,27 @@ function abrirModalResgate() {
   openModal('modal-resgate');
 }
 
-async function confirmarResgate() {
   const pontos = parseInt(document.getElementById('resgate-pontos').value);
   const obs    = document.getElementById('resgate-obs').value.trim();
   if (!pontos || pontos <= 0) { alert('Informe a quantidade de pontos.'); return; }
 
   const nomeArq = currentUser.nome || '';
   try {
-    const res = await apiPontos('solicitarResgatePortal', nomeArq, pontos, obs);
     if (res.error || !res.ok) { alert(res.error || 'Erro ao solicitar resgate.'); return; }
     closeModal('modal-resgate');
     showToast('✓ Resgate de ' + pontos.toLocaleString('pt-BR') + ' pontos solicitado!');
-    setTimeout(() => carregarPontos(), 800);
   } catch(e) {
     alert('Erro de conexão. Tente novamente.');
   }
 }
 
-function mostrarErroPontos(msg) {
   ['pontos-lancamentos','pontos-resgates'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.innerHTML = `<div class="empty-state"><p>${msg}</p></div>`;
   });
 }
 
-// Hook no showPage para carregar pontos ao entrar na aba
-const _origShowPage = window.showPage;
-window.showPage = function(id) {
-  _origShowPage(id);
-  if (id === 'pontos') {
-    // Mostra a div correta
-    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-    const pg = document.getElementById('page-pontos');
-    if (pg) pg.style.display = 'block';
-    if (!_pontosData) carregarPontos();
-  }
-};
 
 
-// ═══════════════════════════════════════════════════════════
-// ADMIN PONTOS
-// ═══════════════════════════════════════════════════════════
-let _adminPontosData = null;
-
-async function carregarAdminPontos() {
-  try {
-    const res = await apiPontos('getGlobalAdminPortal');
-    if (!res || !res.ok) { showToast('Erro ao carregar pontos: ' + (res?.error || 'falha')); return; }
-    _adminPontosData = res;
-    renderAdminPontos();
-  } catch(e) {
-    showToast('Erro de conexão com o sistema de pontos.');
-    console.error(e);
-  }
-}
-
-async function carregarArquitetosList() {
-  try {
-    const res = await apiPontos('getArquitetosPortal');
-    if (!res || !res.ok) return;
-    const sel = document.getElementById('apl-arquiteto');
-    if (!sel) return;
-    sel.innerHTML = '<option value="">Selecione o arquiteto...</option>' +
-      (res.lista || []).map(n => `<option value="${n}">${n}</option>`).join('');
-  } catch(e) { console.error(e); }
-}
-
-function renderAdminPontos() {
-  if (!_adminPontosData) return;
-  const { futures = [], done = [], resgOpen = [], resgOk = [], summary = {} } = _adminPontosData;
-
-  // Cards
-  document.getElementById('apc-pendente').textContent   = (summary.totalPendente || 0).toLocaleString('pt-BR');
-  document.getElementById('apc-liberado').textContent   = (summary.totalLiberado || 0).toLocaleString('pt-BR');
-  document.getElementById('apc-emresgate').textContent  = (summary.totalResgateAberto || 0).toLocaleString('pt-BR');
-  document.getElementById('apc-resgatado').textContent  = (summary.totalResgatado || 0).toLocaleString('pt-BR');
-
-  // Pendentes
-  const pendEl = document.getElementById('apl-pendentes-lista');
-  if (!futures.length) {
-    pendEl.innerHTML = '<div class="empty-state"><p>Nenhum lançamento aguardando liberação.</p></div>';
-  } else {
-    pendEl.innerHTML = '<table><thead><tr><th>Arquiteto</th><th>Cliente/Obra</th><th>Pontos</th><th>Previsão</th><th>Venda</th><th></th></tr></thead><tbody>' +
-      futures.map(f => `<tr>
-        <td><b>${escHtml(f.arquiteto)}</b></td>
-        <td>${escHtml(f.cliente)}</td>
-        <td><b>${Number(f.pontos||0).toLocaleString('pt-BR')}</b></td>
-        <td>${f.previsao || '—'}</td>
-        <td>${escHtml(f.vendaInterna || '—')}</td>
-        <td><button class="btn-primary" style="padding:5px 12px;font-size:12px;" onclick="adminLiberarPontosPortal('${f.id}')">Liberar</button></td>
-      </tr>`).join('') +
-    '</tbody></table>';
-  }
-
-  // Resgates abertos
-  const resgEl = document.getElementById('apl-resgates-lista');
-  if (!resgOpen.length) {
-    resgEl.innerHTML = '<div class="empty-state"><p>Nenhum resgate em aberto.</p></div>';
-  } else {
-    resgEl.innerHTML = '<table><thead><tr><th>Arquiteto</th><th>Pontos</th><th>Data do pedido</th><th>Detalhes</th><th></th></tr></thead><tbody>' +
-      resgOpen.map(r => `<tr>
-        <td><b>${escHtml(r.arquiteto)}</b></td>
-        <td><b>${Number(r.pontos||0).toLocaleString('pt-BR')}</b></td>
-        <td>${r.dataPedido || '—'}</td>
-        <td>${escHtml(r.detalhes || '—')}</td>
-        <td><button class="btn-primary" style="padding:5px 12px;font-size:12px;background:var(--green);" onclick="adminConcluirResgatePortal('${r.id}')">Concluir</button></td>
-      </tr>`).join('') +
-    '</tbody></table>';
-  }
-}
-
-async function adminLancarPontosPortal() {
-  const arquiteto = document.getElementById('apl-arquiteto').value.trim();
-  const cliente   = document.getElementById('apl-cliente').value.trim();
-  const pontos    = parseInt(document.getElementById('apl-pontos').value);
-  const previsao  = document.getElementById('apl-previsao').value;
-  const venda     = document.getElementById('apl-venda').value.trim();
-  const obs       = document.getElementById('apl-obs').value.trim();
-
-  if (!arquiteto) { alert('Selecione o arquiteto.'); return; }
-  if (!cliente)   { alert('Informe o cliente/obra.'); return; }
-  if (!pontos || pontos <= 0) { alert('Informe os pontos.'); return; }
-
-  try {
-    const res = await apiPontos('lancarPontosPortal', arquiteto, cliente, pontos, previsao, venda, obs);
-    if (!res || (!res.ok && !res.mensagem)) { alert('Erro: ' + (res?.error || res?.mensagem || 'falha')); return; }
-    showToast('✓ Pontos lançados com sucesso!');
-    document.getElementById('apl-cliente').value = '';
-    document.getElementById('apl-pontos').value  = '';
-    document.getElementById('apl-previsao').value= '';
-    document.getElementById('apl-venda').value   = '';
-    document.getElementById('apl-obs').value     = '';
-    carregarAdminPontos();
-  } catch(e) {
-    alert('Erro de conexão: ' + e.message);
-  }
-}
-
-async function adminLiberarPontosPortal(lancId) {
-  if (!confirm('Liberar esses pontos para o arquiteto?')) return;
-  try {
-    const res = await apiPontos('liberarPontosPortal', lancId);
-    if (!res?.ok) { alert('Erro: ' + (res?.error || 'falha')); return; }
-    showToast('✓ Pontos liberados!');
-    carregarAdminPontos();
-  } catch(e) { alert('Erro: ' + e.message); }
-}
-
-async function adminConcluirResgatePortal(resgateId) {
-  if (!confirm('Confirmar conclusão deste resgate?')) return;
-  try {
-    const res = await apiPontos('concluirResgatePortal', resgateId);
-    if (!res?.ok) { alert('Erro: ' + (res?.error || 'falha')); return; }
-    showToast('✓ Resgate concluído!');
-    carregarAdminPontos();
-  } catch(e) { alert('Erro: ' + e.message); }
-}
-
-function escHtml(s) {
-  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-// Hook no showPage para carregar dados ao entrar
-const _origSP2 = window.showPage;
-window.showPage = function(id) {
-  _origSP2(id);
-  if (id === 'admin-pontos') {
-    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-    const pg = document.getElementById('page-admin-pontos');
-    if (pg) pg.style.display = 'block';
-    if (!_adminPontosData) {
-      carregarAdminPontos();
-      carregarArquitetosList();
-    }
-  }
-};
 
 </script>
-
-<!-- ═══════════════ PÁGINA: MEUS PONTOS ════════════════ -->
-<div class="page" id="page-pontos" style="display:none;">
-  <div class="page-hero">
-    <h1>Meus Pontos</h1>
-    <p>Acompanhe seu saldo, histórico de lançamentos e resgates.</p>
-  </div>
-
-  <!-- Cards de saldo -->
-  <div class="stats-grid" id="pontos-cards" style="grid-template-columns:repeat(3,1fr);">
-    <div class="stat-card accent">
-      <div class="stat-label">Disponível</div>
-      <div class="stat-value" id="pt-disponivel">—</div>
-      <div class="stat-sub">pontos liberados</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">A liberar</div>
-      <div class="stat-value" id="pt-aliberar">—</div>
-      <div class="stat-sub">pendentes de liberação</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Em resgate</div>
-      <div class="stat-value" id="pt-emresgate">—</div>
-      <div class="stat-sub">solicitados</div>
-    </div>
-  </div>
-
-  <!-- Ações rápidas -->
-  <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
-    <button class="btn-primary" onclick="abrirModalResgate()" id="btn-solicitar-resgate">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-      Solicitar resgate
-    </button>
-  </div>
-
-  <!-- Lançamentos -->
-  <div class="section-header" style="margin-bottom:12px;">
-    <h2 style="font-size:15px;font-weight:500;">Histórico de pontos</h2>
-    <div class="filters">
-      <button class="filter-btn active" onclick="filtrarLancamentos('todos',this)">Todos</button>
-      <button class="filter-btn" onclick="filtrarLancamentos('AGUARDANDO',this)">A liberar</button>
-      <button class="filter-btn" onclick="filtrarLancamentos('LIBERADO',this)">Liberados</button>
-    </div>
-  </div>
-  <div class="card" style="margin-bottom:24px;">
-    <div id="pontos-lancamentos"><div class="loading-bar"><div class="loading-spin"></div>Carregando...</div></div>
-  </div>
-
-  <!-- Resgates -->
-  <div class="section-header" style="margin-bottom:12px;">
-    <h2 style="font-size:15px;font-weight:500;">Meus resgates</h2>
-    <div class="filters">
-      <button class="filter-btn active" onclick="filtrarResgates('todos',this)">Todos</button>
-      <button class="filter-btn" onclick="filtrarResgates('EM ABERTO',this)">Em aberto</button>
-      <button class="filter-btn" onclick="filtrarResgates('CONCLUÍDO',this)">Concluídos</button>
-    </div>
-  </div>
-  <div class="card">
-    <div id="pontos-resgates"><div class="loading-bar"><div class="loading-spin"></div>Carregando...</div></div>
-  </div>
-</div>
-
-<!-- Modal resgate -->
-<div class="modal-overlay" id="modal-resgate">
-  <div class="modal" style="max-width:420px;">
-    <div class="modal-title">Solicitar resgate</div>
-    <div class="modal-sub">Informe quantos pontos deseja resgatar e confirme com sua senha.</div>
-    <div class="form-row">
-      <label class="form-label">Pontos a resgatar</label>
-      <input class="form-input" type="number" id="resgate-pontos" placeholder="Ex: 500" min="1">
-      <div style="font-size:11px;color:var(--text3);margin-top:4px;">Disponível: <span id="resgate-disponivel-hint">—</span> pontos</div>
-    </div>
-    <div class="form-row">
-      <label class="form-label">Observação (opcional)</label>
-      <textarea class="form-textarea" id="resgate-obs" placeholder="Alguma preferência de resgate?"></textarea>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-resgate')">Cancelar</button>
-      <button class="btn-primary" onclick="confirmarResgate()">Confirmar resgate</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- ═══════════════ PÁGINA ADMIN: PONTOS ARQUITETOS ═══════════════ -->
-<div class="page" id="page-admin-pontos" style="display:none;">
-  <div class="page-hero">
-    <h1>Pontos — Arquitetos</h1>
-    <p>Lance pontos, libere saldos e gerencie resgates dos arquitetos parceiros.</p>
-  </div>
-
-  <!-- Cards globais -->
-  <div class="stats-grid" id="admin-pontos-cards" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px;">
-    <div class="stat-card"><div class="stat-label">Pendente liberar</div><div class="stat-value" id="apc-pendente">—</div></div>
-    <div class="stat-card accent"><div class="stat-label">Total liberado</div><div class="stat-value" id="apc-liberado">—</div></div>
-    <div class="stat-card"><div class="stat-label">Em resgate</div><div class="stat-value" id="apc-emresgate">—</div></div>
-    <div class="stat-card"><div class="stat-label">Total resgatado</div><div class="stat-value" id="apc-resgatado">—</div></div>
-  </div>
-
-  <!-- Lançar novos pontos -->
-  <div class="card" style="margin-bottom:24px;padding:20px 24px;">
-    <div class="section-header" style="margin-bottom:16px;">
-      <h2 style="font-size:15px;font-weight:500;">Lançar pontos</h2>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;">
-      <div class="form-row" style="margin:0;">
-        <label class="form-label">Arquiteto *</label>
-        <select class="form-select" id="apl-arquiteto"><option value="">Carregando...</option></select>
-      </div>
-      <div class="form-row" style="margin:0;">
-        <label class="form-label">Cliente / Obra *</label>
-        <input class="form-input" type="text" id="apl-cliente" placeholder="Nome do cliente ou obra">
-      </div>
-      <div class="form-row" style="margin:0;">
-        <label class="form-label">Pontos *</label>
-        <input class="form-input" type="number" id="apl-pontos" placeholder="Ex: 500" min="1">
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
-      <div class="form-row" style="margin:0;">
-        <label class="form-label">Previsão de liberação</label>
-        <input class="form-input" type="date" id="apl-previsao">
-      </div>
-      <div class="form-row" style="margin:0;">
-        <label class="form-label">Venda interna</label>
-        <input class="form-input" type="text" id="apl-venda" placeholder="Código ou referência">
-      </div>
-      <div class="form-row" style="margin:0;">
-        <label class="form-label">Observação</label>
-        <input class="form-input" type="text" id="apl-obs" placeholder="Observações adicionais">
-      </div>
-    </div>
-    <button class="btn-primary" onclick="adminLancarPontosPortal()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Lançar pontos
-    </button>
-  </div>
-
-  <!-- Aguardando liberação -->
-  <div class="section-header" style="margin-bottom:12px;">
-    <h2 style="font-size:15px;font-weight:500;">Aguardando liberação</h2>
-    <button class="btn-secondary" onclick="carregarAdminPontos()">↻ Atualizar</button>
-  </div>
-  <div class="card" style="margin-bottom:24px;">
-    <div id="apl-pendentes-lista"><div class="loading-bar"><div class="loading-spin"></div>Carregando...</div></div>
-  </div>
-
-  <!-- Resgates em aberto -->
-  <div class="section-header" style="margin-bottom:12px;">
-    <h2 style="font-size:15px;font-weight:500;">Resgates em aberto</h2>
-  </div>
-  <div class="card">
-    <div id="apl-resgates-lista"><div class="loading-bar"><div class="loading-spin"></div>Carregando...</div></div>
-  </div>
-</div>
-
-</body>
-</html>
